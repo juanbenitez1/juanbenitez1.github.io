@@ -538,7 +538,7 @@ code {
         width: 140px;
         left: 10px;
         padding: 10px 5px;
-        top: 130px; /* Ajustamos ligeramente para un header más pequeño */
+        top: 250px; /* Ajustamos ligeramente para un header más pequeño */
     }
 
     .sidebar a.nav-link {
