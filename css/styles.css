@@ -121,6 +121,10 @@ main {
 }
 
 /* Sección Proyectos */
+.projects-section {
+    margin-bottom: 40px; /* Ensure spacing below the section */
+}
+
 .projects-section h2 {
     font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
     color: #2c3e50; /* Specific color for headings */
@@ -139,6 +143,7 @@ main {
     color: #2c3e50; /* Specific color for buttons */
     padding: 10px 20px;
     margin: 0 5px;
+    width: 120px;
     border: none;
     border-radius: 5px;
     background-color: #ecf0f1;
@@ -161,6 +166,7 @@ main {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    min-height: 200px; /* Ensure the container has a minimum height to avoid collapsing */
 }
 
 .project-card {
@@ -170,7 +176,11 @@ main {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
-    display: none;
+    display: none; /* Hidden by default, shown via JavaScript */
+}
+
+.project-card.visible {
+    display: block; /* Class to show the card */
 }
 
 .project-card:hover {
@@ -362,4 +372,141 @@ code {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para la sección Contacto */
+.contact {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 60px; /* Add spacing to prevent overlap */
+    margin-bottom: 40px;
+}
+
+.contact h2 {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2c3e50; /* Consistent with other headings */
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.contact h3 {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #34495e; /* Consistent with other subheadings */
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.contact-links {
+    margin-bottom: 30px;
+}
+
+.contact-links p {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #333; /* Same color as body */
+    margin: 10px 0;
+}
+
+.contact-links a {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2980b9; /* Consistent link color */
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.3s;
+}
+
+.contact-links a:hover {
+    color: #1c5d8a;
+    text-decoration: underline;
+}
+
+.contact-links i {
+    margin-right: 8px;
+    font-size: 1.2em;
+    color: #000; /* Change icons to black */
+}
+
+.contact-email {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2980b9; /* Same color as links */
+    font-size: 1.1em;
+}
+
+/* Estilos para la barra lateral */
+.sidebar {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #2c3e50;
+    padding: 20px 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+}
+
+.sidebar a.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 1.1em;
+    padding: 8px 15px;
+    display: block;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a.nav-link:hover {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+.sidebar a.nav-link.active {
+    background-color: #2980b9;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .sidebar {
+        position: static;
+        transform: none;
+        width: 100%;
+        left: 0;
+        padding: 10px;
+        text-align: center;
+    }
+    
+    .sidebar ul {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .sidebar li {
+        margin: 5px 10px;
+    }
+    
+    main {
+        margin-left: 0;
+    }
+    
+    header {
+        margin-left: 0;
+    }
 }
