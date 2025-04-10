@@ -525,7 +525,7 @@ code {
 /* Pantallas de 1200px o menos (pantallas de 14 pulgadas o menos) */
 @media (max-width: 1200px) {
     main {
-        margin-left: 180px;
+        margin-left: 140px;
         margin-right: 20px;
         max-width: 85%;
     }
