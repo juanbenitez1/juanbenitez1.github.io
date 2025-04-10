@@ -481,7 +481,42 @@ code {
 }
 
 
-/* Media query para pantallas pequeñas */
+/* Pantallas de 1200px o menos (aproximadamente 14 pulgadas o menos) */
+@media (max-width: 1200px) {
+    main {
+        margin-left: 180px; /* Reducimos el margen para el sidebar */
+        max-width: 90%; /* Hacemos que el contenido ocupe más espacio */
+    }
+
+    .header-content {
+        padding-left: 180px; /* Reducimos el padding para el sidebar */
+        max-width: 90%;
+    }
+
+    .sidebar {
+        left: 10px; /* Acercamos el sidebar al borde */
+        padding: 15px 5px; /* Reducimos el padding */
+    }
+
+    .sidebar a.nav-link {
+        font-size: 1em; /* Reducimos el tamaño de fuente */
+        padding: 6px 10px; /* Reducimos el padding de los links */
+    }
+
+    .about, .expertise, .projects-section, .contact {
+        padding: 30px 15px; /* Reducimos el padding de las secciones */
+    }
+
+    .expertise-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Reducimos el tamaño mínimo de las columnas */
+    }
+
+    .project-card {
+        width: 250px; /* Reducimos el ancho de las tarjetas de proyectos */
+    }
+}
+
+/* Pantallas de 768px o menos (móviles y tablets pequeñas) */
 @media (max-width: 768px) {
     .sidebar {
         position: static;
@@ -503,10 +538,40 @@ code {
     }
     
     main {
-        margin-left: 0;
+        margin-left: 0; /* Quitamos el margen en móviles */
+        max-width: 100%;
+        padding: 0 10px;
     }
     
+    .header-content {
+        padding-left: 0; /* Quitamos el padding en móviles */
+        max-width: 100%;
+    }
+
+    .about, .expertise, .projects-section, .contact {
+        padding: 20px 10px; /* Reducimos aún más el padding */
+    }
+
+    .expertise-grid {
+        grid-template-columns: 1fr; /* Una sola columna en móviles */
+    }
+
+    .project-card {
+        width: 100%; /* Las tarjetas ocupan todo el ancho */
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .profile-pic {
+        width: 120px; /* Reducimos el tamaño de la foto de perfil */
+        height: 120px;
+    }
+
     header {
-        margin-left: 0;
+        padding: 40px 10px; /* Reducimos el padding del header */
+    }
+
+    header h1 {
+        font-size: 2em; /* Reducimos el tamaño del título */
     }
 }
