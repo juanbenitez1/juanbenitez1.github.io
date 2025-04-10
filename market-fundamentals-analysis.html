@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Market Fundamentals Comparison - Juan Benitez</title>
+    <title>Market Fundamentals - Juan Benitez</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -16,40 +16,164 @@
             <p>This Power BI report compares the performance of companies across various sectors, analyzing key financial metrics such as Return on Equity (ROE), profit margins, debt/equity ratios, and price/earnings ratios. It provides strategic insights for investment decisions and competitive analysis.</p>
             
             <h2>Key Features</h2>
-            <ul>
-                <li>Comparison of financial metrics (ROE, profit margins, debt/equity, price/earnings) across companies and sectors.</li>
-                <li>Interactive filters for symbols, countries, sectors, and industries.</li>
-                <li>Visualizations including scatter plots, bar charts, and histograms to identify trends and outliers.</li>
-                <li>Analysis of sector leverage and risk through debt/equity vs. beta scatter plots.</li>
-            </ul>
+            <li>Comparison of financial metrics (ROE, profit margins, debt/equity, price/earnings) across companies and sectors.</li>
+            <li>Interactive filters for symbols, countries, sectors, and industries.</li>
+            <li>Visualizations including scatter plots, bar charts, and histograms to identify trends and outliers.</li>
+            <li>Analysis of sector leverage and risk through debt/equity vs. beta scatter plots.</li>
             
             <h2>DAX Measures</h2>
-            <p>Some key DAX measures used in the report:</p>
-            <pre><code>Selected Companies Average ROE = AVERAGE('Companies'[ROE])
-Selected Companies Average Profit Margin = AVERAGE('Companies'[Profit Margin])
-Debt to Equity Ratio = DIVIDE(SUM('Companies'[Debt]), SUM('Companies'[Equity]), 0)</code></pre>
+            <p>Here are some key DAX measures used in the dashboard:</p>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Beta</button>
+                    <div class="accordion-content">
+                        <pre><code>SUM(financial_dataset[Beta])</code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Debt Equity</button>
+                    <div class="accordion-content">
+                        <pre><code>SUM(financial_dataset[Debt_Equity])</code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Fundamental Value</button>
+                    <div class="accordion-content">
+                        <pre><code>
+FundamentalValue = 
+VAR CurrentTicker = SELECTEDVALUE('financial_dataset'[Simbol])
+VAR CurrentFundamental = SELECTEDVALUE(FundamentalNames[Fundamental])
+RETURN
+IF(
+    NOT ISBLANK(CurrentTicker), -- Solo calcula para tickers reales
+    CALCULATE(
+        SWITCH(
+            CurrentFundamental,
+            "Price", [Price],
+            "P_E", [P_E],
+            "Price_Book", [Price_Book],
+            "EPS_QQ", [EPS_QQ],
+            "Change", [Change],
+            "Debt_Equity", [Debt_Equity],
+            "Dividend", [Dividend],
+            "Profit_Margin", [Profit_Margin],
+            "ROA", [ROA],
+            "ROE", [ROE],
+            "Volume", [Volume],
+            BLANK()
+        ),
+        'financial_dataset'[Simbol] = CurrentTicker
+    ),
+    BLANK()
+)
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Mean Value</button>
+                    <div class="accordion-content">
+                        <pre><code>
+VAR CurrentFundamental = SELECTEDVALUE(FundamentalNames[Fundamental])
+RETURN
+AVERAGEX(
+    ALLSELECTED('financial_dataset'[Simbol]),
+    SWITCH(
+        CurrentFundamental,
+        "Price", [Price],
+        "P_E", [P_E],
+        "Price_Book", [Price_Book],
+        "EPS_QQ", [EPS_QQ],
+        "Change", [Change],
+        "Debt_Equity", [Debt_Equity],
+        "Dividend", [Dividend],
+        "Profit_Margin", [Profit_Margin],
+        "ROA", [ROA],
+        "ROE", [ROE],
+        "Volume", [Volume],
+        BLANK()
+    )
+)
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Tickers (Field Parameter)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+Tickers = {
+    ("Simbol", NAMEOF('financial_dataset'[Simbol]), 0)
+}
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Fundamentals (Field Parameter)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+Fundamentals = {
+    ("Change", NAMEOF('Metrics'[Change]), 0),
+    ("Debt_Equity", NAMEOF('Metrics'[Debt_Equity]), 1),
+    ("Dividend", NAMEOF('Metrics'[Dividend]), 2),
+    ("EPS_QQ", NAMEOF('Metrics'[EPS_QQ]), 3),
+    ("P_E", NAMEOF('Metrics'[P_E]), 4),
+    ("Price", NAMEOF('Metrics'[Price]), 5),
+    ("Profit_Margin", NAMEOF('Metrics'[Profit_Margin]), 6),
+    ("Price_Book", NAMEOF('Metrics'[Price_Book]), 7),
+    ("ROA", NAMEOF('Metrics'[ROA]), 8),
+    ("ROE", NAMEOF('Metrics'[ROE]), 9),
+    ("Volume", NAMEOF('Metrics'[Volume]), 10)
+}
+                    </code></pre>
+                    </div>
+                </div>
+            </div>
             
             <h2>Power Query Transformations</h2>
-            <p>Data preparation in Power Query included:</p>
-            <ul>
-                <li>Filtering out incomplete records and standardizing company names.</li>
-                <li>Creating calculated columns for sector and industry categorization.</li>
-                <li>Normalizing financial metrics for consistent comparison across companies.</li>
-            </ul>
+            <p>Data was cleaned and transformed using Power Query:</p>
+            <li>Filtering out incomplete records and standardizing company names.</li>
+            <li>Creating calculated columns for sector and industry categorization.</li>
+            <li>Normalizing financial metrics for consistent comparison across companies.</li>
             
             <h2>Results and Insights</h2>
-            <p>The report provided actionable insights:</p>
-            <ul>
-                <li>Companies in the Consumer Defensive sector (e.g., 22nd Century Group Inc) showed the highest debt/equity ratio (6.05), indicating higher financial risk.</li>
-                <li>Healthcare companies like 10x Genomics Inc had negative ROE (-25.17) and profit margins (-29%), suggesting operational challenges.</li>
-                <li>Consumer Cyclical companies like 1-800 Flowers.com Inc exhibited low leverage (0.60 debt/equity) and stable ROE (1.52).</li>
-                <li>Price/earnings ratios varied widely, with companies like Despegar.com and LiveRamp Holdings showing high ratios (over 100M), indicating potential overvaluation.</li>
-            </ul>
-            
-            <h2>Screenshots</h2>
-            <img src="images/proyecto_fundamentals.jpg" alt="Market Fundamentals Comparison Screenshot 1" style="width: 100%; margin-bottom: 20px;">
-            <img src="images/proyecto_fundamentals_2.jpg" alt="Market Fundamentals Comparison Screenshot 2" style="width: 100%; margin-bottom: 20px;">
+            <p><p>The dashboard provides actionable insights through dynamic filtering and visualization:</p></p>
+            <div class="insights-section">
+                <h3>Market Fundamental Analysis: Primary Dashboard</h3>
+                <img src="images/proyecto_fundamentals.jpg" alt="Market Fundamental Analysis Screenshot" class="centered-image">
+                <p>The primary dashboard offers a comprehensive comparison of key market fundamentals across companies, enabling detailed performance analysis by sector, country, and selected metrics.</p>
+                
+                <h3>Dynamic Analysis with Field Parameters</h3>
+                <img src="images/proyecto_fundamentals_3.jpg" alt="Dynamic Analysis with Field Parameters Screenshot" class="centered-image">
+                <p>Field Parameters enhance the report's flexibility by allowing users to dynamically switch between different metrics, such as ROE, P/E, or Debt/Equity, in visualizations like the bar chart below. This interactivity enables a tailored analysis, helping stakeholders quickly identify trends and compare company performance across various fundamentals without needing multiple static charts.</p>
+                <li><strong>Filtered Analysis:</strong> Using slicers, we filtered companies by Sector: Financial and Country: Argentina, displaying only relevant companies (e.g., BBAR, BMA, GGAL, SUPV) in the table above.</li>
+                <li><strong>Selected Companies Average:</strong> The table below the main comparison shows the average fundamentals for the filtered companies (e.g., ROE: 20.91%, P/E: 11.61), allowing us to benchmark each company against the group average. For instance, GGAL's ROE (38.13%) is significantly above the average, while SUPV's (19.64%) is slightly below.</li>
+                <li><strong>Dynamic Bar Chart:</strong> Using the "Fundamentals (Bar Chart)" Field Parameter, we selected ROE to visualize how the filtered companies compare. GGAL leads with the highest ROE (38.13%), followed by BBAR (14.45%), BMA (9.05%), and SUPV (1.96%), providing a clear visual comparison.</li>
+                
+                <h3>Market Performance Analysis</h3>
+                <img src="images/proyecto_fundamentals_2.jpg" alt="Market Performance Analysis Screenshot" class="centered-image">
+                <p>This section of the report provides a detailed view of company fundamentals, focusing on sector leverage, risk, and price-to-earnings ratios, with interactive filtering to explore specific companies and sectors.</p>
+                <li>Sector Leverage and Risk Analysis: The scatter plot visualizes Debt/Equity ratios against Beta for various sectors, highlighting risk profiles. For example, Consumer Defensive companies like 1-800 Flowers.com show low Debt/Equity (1.52) and Beta (0.4), indicating lower risk.</li>
+                <li>Price/Earnings Comparison: The bar chart displays P/E ratios for selected companies, with Despegar.com leading at 100 million, suggesting a high market valuation relative to earnings, while companies like CSP Inc. have a lower P/E of around 10 million.</li>
+                <li>Company Fundamentals Table: The table lists key metrics (ROE, Profit Margin) for filtered companies across sectors like Healthcare and Financials, revealing significant variations, such as 22nd Century Group Inc.'s ROE of -385.90% and Profit Margin of -104%.</li>
+
+            </div>
         </section>
     </main>
+    <script>
+        // JavaScript para manejar el accordion
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isOpen = content.style.display === 'block';
+
+                // Cerrar todos los contenidos abiertos
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.style.display = 'none';
+                });
+
+                // Mostrar u ocultar el contenido clicado
+                content.style.display = isOpen ? 'none' : 'block';
+            });
+        });
+    </script>
 </body>
 </html>
