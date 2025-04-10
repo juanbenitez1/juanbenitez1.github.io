@@ -526,7 +526,7 @@ code {
 @media (max-width: 1300px) {
     main {
         margin-left: 120px;
-        margin-right: 20px;
+        margin-right: 0px;
         max-width: 85%;
     }
 
