@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#about" class="nav-link active">About Me</a></li>
+            <li><a href="#expertise" class="nav-link">Expertise</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
     <header>
         <div class="header-content">
             <h1>Juan Benitez Portfolio - Data Scientist</h1>
@@ -15,14 +23,14 @@
     </header>
     <main>
         <!-- Sección Acerca de Mí -->
-        <section class="about">
+        <section class="about" id="about">
             <img src="images/foto-perfil.jpg" alt="My Photo" class="profile-pic">
             <h2>Juan Benitez</h2>
             <p>Economist and Data Scientist with 4 years of experience in data analysis and visualization, data science and reporting using tools such as QlikView, PowerBI, Python, Numpy, Pandas, Matplotlib, Scikit-Learn, Keras, PyTorch and SQL.</p>
         </section>
         
         <!-- Sección Áreas de Expertise -->
-        <section class="expertise">
+        <section class="expertise" id="expertise">
             <h2>Areas of Expertise</h2>
             <div class="expertise-grid">
                 <div class="expertise-item">
@@ -53,7 +61,7 @@
         </section>
         
         <!-- Sección Proyectos -->
-        <section class="projects-section">
+        <section class="projects-section" id="projects">
             <h2>My Projects</h2>
             <div class="filter-buttons">
                 <button id="powerbi-btn" onclick="filterProjects('powerbi')" class="active">Power BI</button>
@@ -78,7 +86,26 @@
                     <p>A script to process and visualize CSV data.</p>
                     <a href="analizador-datos.html">View Details</a>
                 </div>
-                <!-- Add more projects here with data-category="powerbi" or "python" -->
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section class="contact" id="contact">
+            <h2>Contact Me</h2>
+            <div class="contact-links">
+                <p>
+                    <a href="https://www.linkedin.com/in/benitez-juan-pablo/" target="_blank">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                </p>
+                <p>
+                    <a href="https://wa.me/5493758415985" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </p>
+                <p>
+                    <i class="fas fa-envelope"></i> Gmail: <span class="contact-email">licbenitezjuan@gmail.com</span>
+                </p>
             </div>
         </section>
     </main>
@@ -111,8 +138,55 @@
 
         // Mostrar los proyectos de Power BI por defecto al cargar la página
         document.addEventListener('DOMContentLoaded', () => {
-            filterProjects('powerbi');
+        filterProjects('powerbi');
+        
+        // Smooth scroll para los links de navegación
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
         });
-    </script>
+
+        // Resaltar link activo al hacer scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const scrollPosition = window.scrollY + window.innerHeight / 2; // Usamos la mitad de la ventana
+            const documentHeight = document.documentElement.scrollHeight;
+            const windowHeight = window.innerHeight;
+
+            // Si estamos cerca del final de la página, activar Contact
+            if (window.scrollY + windowHeight >= documentHeight - 50) { // 50px de tolerancia
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#contact') {
+                        link.classList.add('active');
+                    }
+                });
+                return;
+            }
+
+            // Lógica para las otras secciones
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
