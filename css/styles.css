@@ -15,14 +15,17 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.header-content h1 {
+header h1 {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: white; /* Specific color for header */
     margin: 0;
     font-size: 3em;
 }
 
 .header-content p {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #bdc3c7; /* Specific color for header content */
     font-size: 1.2em;
-    color: #bdc3c7;
 }
 
 main {
@@ -51,15 +54,18 @@ main {
 }
 
 .about h2 {
-    color: #2c3e50;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2c3e50; /* Specific color for headings */
     font-size: 2em;
 }
 
 .about p {
-    color: #666;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #666; /* Specific color for about section */
     max-width: 600px;
     margin: 0 auto;
     font-size: 1.1em;
+    text-align: justify; /* Justified text */
 }
 
 /* Sección Áreas de Expertise */
@@ -68,8 +74,9 @@ main {
 }
 
 .expertise h2 {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2c3e50; /* Specific color for headings */
     text-align: center;
-    color: #2c3e50;
     font-size: 2em;
     margin-bottom: 20px;
 }
@@ -93,7 +100,8 @@ main {
 }
 
 .expertise-item h3 {
-    color: #2980b9;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2980b9; /* Specific color for headings */
     font-size: 1.3em;
     margin-top: 0;
     display: flex;
@@ -106,15 +114,17 @@ main {
 }
 
 .expertise-item p {
-    color: #666;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #666; /* Specific color for expertise section */
     text-align: justify;
     font-size: 1em;
 }
 
 /* Sección Proyectos */
 .projects-section h2 {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2c3e50; /* Specific color for headings */
     text-align: center;
-    color: #2c3e50;
     font-size: 2em;
     margin-bottom: 20px;
 }
@@ -125,12 +135,13 @@ main {
 }
 
 .filter-buttons button {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2c3e50; /* Specific color for buttons */
     padding: 10px 20px;
     margin: 0 5px;
     border: none;
     border-radius: 5px;
     background-color: #ecf0f1;
-    color: #2c3e50;
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s;
@@ -175,19 +186,22 @@ main {
 }
 
 .project-card h2 {
-    color: #2980b9;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2980b9; /* Specific color for headings */
     font-size: 1.5em;
     margin: 0 0 15px 0;
 }
 
 .project-card p {
-    color: #666;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #666; /* Specific color for project card */
     margin: 0 0 20px 0;
     text-align: justify;
 }
 
 .project-card a, .back-link {
-    color: #2980b9;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2980b9; /* Specific color for links */
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
@@ -209,7 +223,8 @@ main {
 }
 
 .project-details h2 {
-    color: #2c3e50;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2c3e50; /* Specific color for headings */
     font-size: 2em;
     border-bottom: 3px solid #2980b9;
     padding-bottom: 10px;
@@ -217,7 +232,8 @@ main {
 }
 
 .project-details h3 {
-    color: #34495e;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #34495e; /* Specific color for headings */
     font-size: 1.5em;
     margin-top: 30px;
     margin-bottom: 15px;
@@ -226,32 +242,43 @@ main {
 }
 
 .project-details p {
-    color: #555;
-    font-family: 'Segoe UI', Arial, sans-serif; /* Misma fuente */
-    font-size: 1.05em; /* Mismo tamaño */
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #333; /* Same color as body */
+    font-size: 1.05em;
     margin-bottom: 20px;
     line-height: 1.8;
-    text-align: justify; /* Texto justificado */
+    text-align: justify; /* Justified text */
+}
+
+.project-details li {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #333; /* Same color as body */
+    font-size: 1.05em;
+    margin-bottom: 12px;
+    padding-left: 15px;
+    text-align: justify; /* Justified text */
+    list-style-position: outside; /* Ensure default bullet is visible */
 }
 
 .project-details ul {
     margin-bottom: 30px;
-    padding-left: 25px;
+    padding-left: 0; /* Remove default padding */
 }
 
 .project-details ul li {
-    color: #666;
-    font-family: 'Segoe UI', Arial, sans-serif; /* Misma fuente */
-    font-size: 1.05em; /* Mismo tamaño */
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #333; /* Same color as body */
+    font-size: 1.05em;
     margin-bottom: 12px;
     position: relative;
-    padding-left: 15px;
-    text-align: justify; /* Texto justificado */
+    padding-left: 25px; /* Space for custom bullet */
+    text-align: justify; /* Justified text */
+    list-style: none; /* Remove default bullet */
 }
 
 .project-details ul li:before {
     content: "•";
-    color: #2980b9;
+    color: #2980b9; /* Custom bullet color */
     font-size: 1.5em;
     position: absolute;
     left: 0;
@@ -289,8 +316,9 @@ code {
 }
 
 .accordion-header {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Same font */
+    color: #2c3e50; /* Specific color for accordion header */
     background-color: #f7f7f7;
-    color: #2c3e50;
     padding: 12px;
     width: 100%;
     text-align: left;
