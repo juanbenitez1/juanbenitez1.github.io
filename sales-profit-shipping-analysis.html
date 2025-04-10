@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales, Profit & Shipping Analysis - Juan Benitez</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sales, Profit & Shipping Analysis</h1>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </header>
+    <main>
+        <section class="project-details">
+            <h2>Overview</h2>
+            <p>This Power BI dashboard provides a comprehensive analysis of sales, profit trends, and shipping costs. It enables stakeholders to track performance across different markets and product categories, while also identifying opportunities to optimize logistics by analyzing shipping costs by month and mode.</p>
+            
+            <h2>Key Features</h2>
+            <li>Sales and profit tracking by month, market, and category.</li>
+            <li>Shipping cost analysis by month and shipping mode (First Class, Same Day, Second Class, Standard Class).</li>
+            <li>Interactive visualizations including bar charts, line graphs, and pie charts.</li>
+            <li>Decomposition tree for deeper insights into sales and profit drivers.</li>
+            
+            <h2>DAX Measures</h2>
+            <p>Here are some key DAX measures used in the dashboard:</p>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Card Profit</button>
+                    <div class="accordion-content">
+                        <pre><code>SUBSTITUTE(FORMAT(SUM(Global_Superstore[Profit]) / 1000000, "$ #,0.000,,\"), ".", ",") & " mill."</code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Card Sales</button>
+                    <div class="accordion-content">
+                        <pre><code>SUBSTITUTE(FORMAT(SUM(Global_Superstore[Sales]) / 1000000, "$ #,0.000,,\"), ".", ",") & " mill."</code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Card Shipping</button>
+                    <div class="accordion-content">
+                        <pre><code>SUBSTITUTE(FORMAT(SUM(Global_Superstore[Shipping Cost]) / 1000000, "$ #,0.000,,\"), ".", ",") & " mill."</code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Card Shipping %</button>
+                    <div class="accordion-content">
+                        <pre><code>SUBSTITUTE(FORMAT(DIVIDE([Shipping Costt], [Saless]) * 100, "#,0.00,,\"), ".", ",") & "%"</code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Sparkline Profit</button>
+                    <div class="accordion-content">
+                        <pre><code>
+VAR Defs = "&lt;defs&gt;
+    &lt;linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'&gt;
+        &lt;stop stop-color='#119E4C' offset='0' /&gt;
+        &lt;stop stop-color='transparent' offset='1' /&gt;
+    &lt;/linearGradient&gt;
+&lt;/defs&gt;"
+
+VAR XMaxDate = MAX(Global_Superstore[Order Date])
+VAR XMinDate = EDATE(XMaxDate, -3)
+
+VAR YMinValue = MINX(Values(Global_Superstore[Order Date]), CALCULATE([Profitt]))
+VAR YMaxValue = MAXX(Values(Global_Superstore[Order Date]), CALCULATE([Profitt]))
+
+VAR SparklineTable = ADDCOLUMNS(
+    SUMMARIZE('Global_Superstore', Global_Superstore[Order Date]),
+    "X", INT(150 * DIVIDE(Global_Superstore[Order Date] - XMinDate, XMaxDate - XMinDate)),
+    "Y", INT(60 * DIVIDE([Profitt] - YMinValue, YMaxValue - YMinValue))
+)
+
+VAR Lines = CONCATENATEX(SparklineTable, [X] & "," & 50-[Y], " ", Global_Superstore[Order Date])
+
+VAR SVGImageURL = 
+    "data:image/svg+xml;utf8," & 
+    "&lt;svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 150 50'&gt;" & Defs &
+    "&lt;polyline fill='url(#grad)' fill-opacity='0.3' stroke='#119E4C' 
+    stroke-width='1' points=' 0 50 " & Lines & 
+    " 150 150 Z '/&gt;&lt;/svg&gt;"
+
+RETURN SVGImageURL
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Sparkline Sales</button>
+                    <div class="accordion-content">
+                        <pre><code>
+VAR Defs = "&lt;defs&gt;
+&lt;linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'&gt;
+    &lt;stop stop-color='#119E4C' offset='0' /&gt;
+    &lt;stop stop-color='transparent' offset='1' /&gt;
+&lt;/linearGradient&gt;
+&lt;/defs&gt;"
+
+VAR XMaxDate = MAX(Global_Superstore[Order Date])
+VAR XMinDate = EDATE(XMaxDate, -3)
+
+VAR YMinValue = MINX(Values(Global_Superstore[Order Date]),CALCULATE([Saless]))
+VAR YMaxValue = MAXX(Values(Global_Superstore[Order Date]),CALCULATE([Saless]))
+
+VAR SparklineTable = ADDCOLUMNS(
+    SUMMARIZE('Global_Superstore', Global_Superstore[Order Date]),
+        "X",INT(150 * DIVIDE(Global_Superstore[Order Date] - XMinDate, XMaxDate - XMinDate)),
+        "Y", INT(60 * DIVIDE([Saless] - YMinValue, YMaxValue - YMinValue)))
+
+VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", Global_Superstore[Order Date])
+
+VAR SVGImageURL = 
+"data:image/svg+xml;utf8," & 
+"&lt;svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 150 50'&gt;" & Defs &
+"&lt;polyline fill='url(#grad)' fill-opacity='0.3' stroke='#119E4C' 
+stroke-width='1' points=' 0 50 " & Lines & 
+" 150 150 Z '/&gt;&lt;/svg&gt;"
+                    </code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Power Query Transformations</h2>
+            <p>Data was cleaned and transformed using Power Query:</p>
+            <li>Removed duplicates and handled missing values in the sales dataset.</li>
+            <li>Split date columns to extract month and year for time-based analysis.</li>
+            <li>Grouped shipping data by mode to calculate total costs.</li>
+            
+            <h2>Results and Insights</h2>
+            <p>The dashboard revealed key insights:</p>
+            <div class="insights-section">
+                <h3>Sales & Profit Analysis</h3>
+                <img src="images/proyecto_superstore.jpg" alt="Sales & Profit Analysis Screenshot" class="centered-image">
+                <p>The primary dashboard provides a clear and detailed view of total sales and profits, broken down by market, category, and monthly trends.</p>
+                <li>Total sales: $12.641M | Total profit: $1.467M.</li>
+                <li>The main cards feature sparklines displaying the sales and profit trends for the last 3 months, providing a quick snapshot of recent performance.</li>
+                <li>Monthly bar charts highlighting peaks in November and December (perfect for planning year-end campaigns).</li>
+                <li>Breakdown by category: Technology leads with 37.52% of sales.</li>
+                <li>Market-level table: APAC stands out with $3.585M in sales and $436K in profit.</li>
+                
+                <h3>Shipping Cost Analysis</h3>
+                <img src="images/proyecto_superstore_2.jpg" alt="Shipping Cost Screenshot" class="centered-image">
+                <p>The waterfall chart is a powerful tool for understanding how shipping costs evolve month by month, breaking down increases (in blue) and decreases (in red).</p>
+                <p>This type of visualization is ideal for identifying seasonal patterns and key moments of increase or decrease, allowing us to investigate the reasons behind these variations (e.g., higher shipment volumes, rate changes, etc.). The cumulative total (in green) provides a clear view of the net impact over the year.</p>
+                <p>The second chart breaks down costs by shipping mode (First Class, Same Day, Second Class, and Standard Class). This analysis is crucial for understanding how costs are distributed across different shipping options.</p>
+                <li>Total shipping costs: $1.353M (10.70% of sales).</li>
+                <li>Monthly visualization showing increases and decreases, with notable peaks in May and December.</li>
+                <li>Breakdown by shipping mode (First Class, Same Day, etc.), enabling the identification of optimization opportunities.</li>
+
+                <h3>Decomposition Tree Analysis</h3>
+                <img src="images/proyecto_superstore_3.jpg" alt="Decomposition Tree Analysis Screenshot" class="centered-image">
+                <p>The Decomposition Tree is a game-changer for breaking down metrics and understanding what drives them. Its dynamic functionality lets you interactively select breakdowns, exploring data across dimensions like market, region, category, or product.</p>
+                <li>Allows exploration of sales and profit by market, region, category, segment, and product name.</li>
+                <li>Example: In APAC, phones (Technology category) generate $2.818M, with the Samsung Smart Phone leading the pack.</li>
+
+                <h3>Filter Pane</h3>
+                <img src="images/proyecto_superstore_4.jpg" alt="Filter Pane Screenshot" class="centered-image">
+                <p>The filter panel enables dynamic data exploration, allowing segmentation by year, quarter, month, region, market, category, and even down to the product level. This ensures users can drill into the details that matter most, from regional analysis to a product-specific focus.</p>
+                <li>Segmentation by year, month, region, category, and more for a tailored analysis.</li>
+                <li>Customize the analysis to meet the specific needs of different teams or stakeholders.</li>
+            </div>
+        </section>
+    </main>
+    <script>
+        // JavaScript para manejar el accordion
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isOpen = content.style.display === 'block';
+
+                // Cerrar todos los contenidos abiertos
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.style.display = 'none';
+                });
+
+                // Mostrar u ocultar el contenido clicado
+                content.style.display = isOpen ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>

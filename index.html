@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Juan Benitez Portfolio - Data Scientist</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Añadir Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Juan Benitez Portfolio - Data Scientist</h1>
+        </div>
+    </header>
+    <main>
+        <!-- Sección Acerca de Mí -->
+        <section class="about">
+            <img src="images/foto-perfil.jpg" alt="My Photo" class="profile-pic">
+            <h2>Juan Benitez</h2>
+            <p>Economist and Data Scientist with 4 years of experience in data analysis and visualization, data science and reporting using tools such as QlikView, PowerBI, Python, Numpy, Pandas, Matplotlib, Scikit-Learn, Keras, PyTorch and SQL.</p>
+        </section>
+        
+        <!-- Sección Áreas de Expertise -->
+        <section class="expertise">
+            <h2>Areas of Expertise</h2>
+            <div class="expertise-grid">
+                <div class="expertise-item">
+                    <h3><i class="fas fa-chart-bar"></i> Power BI</h3>
+                    <p>I develop reports and dashboards from scratch, using Power Query to transform data, DAX for advanced calculations and interactive visualizations that drive strategic decisions.</p>
+                </div>
+                <div class="expertise-item">
+                    <h3><i class="fab fa-python"></i> Python</h3>
+                    <p>Specialized in analytics and data science with packages like Pandas, NumPy, Matplotlib, Scikit-learn, Keras and PyTorch. I also have backend knowledge with Django and Flask.</p>
+                </div>
+                <div class="expertise-item">
+                    <h3><i class="fas fa-chart-line"></i> Economics and Finance</h3>
+                    <p>I apply knowledge in economic and financial analysis to model data, evaluate risks and optimize processes, connecting data with business strategies.</p>
+                </div>
+                <div class="expertise-item">
+                    <h3><i class="fas fa-calculator"></i> Statistical Analysis</h3>
+                    <p>I use statistical techniques to interpret data, perform hypothesis testing, model distributions and generate reliable predictions to support decision making.</p>
+                </div>
+                <div class="expertise-item">
+                    <h3><i class="fas fa-comment-dots"></i> Data Communication</h3>
+                    <p>I translate complex data into clear, visual stories, designing presentations that connect with technical and non-technical audiences.</p>
+                </div>
+                <div class="expertise-item">
+                    <h3><i class="fas fa-tools"></i> Problem Solving</h3>
+                    <p>I combine technical skills and critical thinking to tackle complex challenges, from data cleansing to predictive model implementation.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección Proyectos -->
+        <section class="projects-section">
+            <h2>My Projects</h2>
+            <div class="filter-buttons">
+                <button id="powerbi-btn" onclick="filterProjects('powerbi')" class="active">Power BI</button>
+                <button id="python-btn" onclick="filterProjects('python')">Python</button>
+            </div>
+            <div class="projects">
+                <div class="project-card" data-category="powerbi">
+                    <img src="images/proyecto_superstore.jpg" alt="Sales, Profit & Shipping Analysis Thumbnail" class="project-thumb">
+                    <h2>Sales, Profit & Shipping Analysis</h2>
+                    <p>A Power BI dashboard to analyze sales, profit trends, and shipping costs across markets, categories, and shipping modes to optimize business operations.</p>
+                    <a href="sales-profit-shipping-analysis.html">View Details</a>
+                </div>
+                <div class="project-card" data-category="powerbi">
+                    <img src="images/proyecto_fundamentals.jpg" alt="Market Fundamentals Comparison Thumbnail" class="project-thumb">
+                    <h2>Market Fundamentals Comparison</h2>
+                    <p>A Power BI report comparing company performance across sectors, analyzing metrics like ROE, profit margins, and debt/equity ratios for strategic insights.</p>
+                    <a href="market-fundamentals-analysis.html">View Details</a>
+                </div>
+                <div class="project-card" data-category="python">
+                    <img src="images/data-analyzer-thumb.jpg" alt="Data Analyzer Thumbnail" class="project-thumb">
+                    <h2>Data Analyzer</h2>
+                    <p>A script to process and visualize CSV data.</p>
+                    <a href="analizador-datos.html">View Details</a>
+                </div>
+                <!-- Add more projects here with data-category="powerbi" or "python" -->
+            </div>
+        </section>
+    </main>
+    <script>
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const powerbiBtn = document.querySelector('#powerbi-btn');
+            const pythonBtn = document.querySelector('#python-btn');
+            
+            // Remover la clase 'active' de ambos botones
+            powerbiBtn.classList.remove('active');
+            pythonBtn.classList.remove('active');
+            
+            // Añadir la clase 'active' al botón correspondiente
+            if (category === 'powerbi') {
+                powerbiBtn.classList.add('active');
+            } else if (category === 'python') {
+                pythonBtn.classList.add('active');
+            }
+            
+            // Mostrar u ocultar tarjetas según la categoría seleccionada
+            cards.forEach(card => {
+                if (card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Mostrar los proyectos de Power BI por defecto al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            filterProjects('powerbi');
+        });
+    </script>
+</body>
+</html>

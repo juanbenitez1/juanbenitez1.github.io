@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Market Fundamentals Comparison - Juan Benitez</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Market Fundamentals Comparison: Company Performance Analysis</h1>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </header>
+    <main>
+        <section class="project-details">
+            <h2>Overview</h2>
+            <p>This Power BI report compares the performance of companies across various sectors, analyzing key financial metrics such as Return on Equity (ROE), profit margins, debt/equity ratios, and price/earnings ratios. It provides strategic insights for investment decisions and competitive analysis.</p>
+            
+            <h2>Key Features</h2>
+            <ul>
+                <li>Comparison of financial metrics (ROE, profit margins, debt/equity, price/earnings) across companies and sectors.</li>
+                <li>Interactive filters for symbols, countries, sectors, and industries.</li>
+                <li>Visualizations including scatter plots, bar charts, and histograms to identify trends and outliers.</li>
+                <li>Analysis of sector leverage and risk through debt/equity vs. beta scatter plots.</li>
+            </ul>
+            
+            <h2>DAX Measures</h2>
+            <p>Some key DAX measures used in the report:</p>
+            <pre><code>Selected Companies Average ROE = AVERAGE('Companies'[ROE])
+Selected Companies Average Profit Margin = AVERAGE('Companies'[Profit Margin])
+Debt to Equity Ratio = DIVIDE(SUM('Companies'[Debt]), SUM('Companies'[Equity]), 0)</code></pre>
+            
+            <h2>Power Query Transformations</h2>
+            <p>Data preparation in Power Query included:</p>
+            <ul>
+                <li>Filtering out incomplete records and standardizing company names.</li>
+                <li>Creating calculated columns for sector and industry categorization.</li>
+                <li>Normalizing financial metrics for consistent comparison across companies.</li>
+            </ul>
+            
+            <h2>Results and Insights</h2>
+            <p>The report provided actionable insights:</p>
+            <ul>
+                <li>Companies in the Consumer Defensive sector (e.g., 22nd Century Group Inc) showed the highest debt/equity ratio (6.05), indicating higher financial risk.</li>
+                <li>Healthcare companies like 10x Genomics Inc had negative ROE (-25.17) and profit margins (-29%), suggesting operational challenges.</li>
+                <li>Consumer Cyclical companies like 1-800 Flowers.com Inc exhibited low leverage (0.60 debt/equity) and stable ROE (1.52).</li>
+                <li>Price/earnings ratios varied widely, with companies like Despegar.com and LiveRamp Holdings showing high ratios (over 100M), indicating potential overvaluation.</li>
+            </ul>
+            
+            <h2>Screenshots</h2>
+            <img src="images/proyecto_fundamentals.jpg" alt="Market Fundamentals Comparison Screenshot 1" style="width: 100%; margin-bottom: 20px;">
+            <img src="images/proyecto_fundamentals_2.jpg" alt="Market Fundamentals Comparison Screenshot 2" style="width: 100%; margin-bottom: 20px;">
+        </section>
+    </main>
+</body>
+</html>
