@@ -40,7 +40,7 @@ header h1 {
 
 main {
     max-width: 1000;
-    margin: 40px autopx;
+    margin: 40px auto;
     padding: 0 20px;
     margin-left: 280px; /* Espacio para el sidebar */
     margin-right: 20px; /* Añadimos margen derecho para balancear */
