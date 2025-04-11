@@ -386,6 +386,20 @@ code {
     transform: scale(1.02);
 }
 
+.centered-image-linearmodel {
+    display: block;
+    width: 60%;
+    margin: -20px auto 25px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.centered-image-linearmodel:hover {
+    transform: scale(1.02);
+}
+
+
 .insights-section {
     background-color: #f9f9f9;
     padding: 20px;
