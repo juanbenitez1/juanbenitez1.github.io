@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Finance Web Scraping - Juan Benitez</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Finance Web Scraping</h1>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </header>
+    <main>
+        <section class="project-details">
+            <h2>Overview</h2>
+            <p>In this project, we will develop a web scraping process to gather detailed information on the financial fundamentals of publicly traded companies. Instead of relying on the conventional Yahoo Finance API, we will utilize Python's requests and BeautifulSoup libraries, enabling more precise and flexible data extraction. It is important to note that the purpose of this project is purely educational, aimed at demonstrating the technical implementation. For ethical and legal reasons, the specific website from which the data is sourced will not be disclosed, as its use and replication require appropriate authorization.</p>
+            
+            <h2>Python Code and Analysis</h2>
+            <p>This is the set of information we aim to extract:</p>
+            
+            <p style="text-align: center;"><strong>Figure 1:</strong> Market data</p>
+            <img src="images/finance_scraping/1.jpg" alt="Market data Screenshot" class="centered-image-linearmodel">
+
+            <h3>Step 1: import packages</h3>
+            <li><strong>requests:</strong> Used to make HTTP requests and get the content of the web page.</li>
+            <li><strong>BeautifulSoup:</strong> Used to parse the HTML of the page to extract specific data.</li>
+            <li><strong>pandas:</strong> Used to organize the extracted data in a DataFrame.</li>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Import Packages (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd 
+                    </div>
+                </div>
+            
+            <h3>Step 2: generate needed lists</h3>
+            <p>The list "pages" creates a list of numbers (sequence) representing the paging indexes for the website screener. The site displays 20 results per page, and the code assumes there are a total of 9981 items (actions).</p>
+            <p>The formula (9981-21)//20 + 1 calculates how many pages there are:</p>
+                <li>9981 - 21 = 9960 (subtract to adjust the range).</li>
+                <li>9960 // 20 = 498 (number of complete pages).</li>
+                <li>+ 1 to include the last page.</li>
+            <p>The list sequence contains: [1, 21, 41, ..., 9961] (increments of 20).</p>
+
+
+            <div class="accordion-item">
+                <button class="accordion-header">Lists to store the information (Click to expand code)</button>
+                <div class="accordion-content">
+                    <pre><code>
+# This is a logic that allows us to navigate through all the website pages
+pages = [1 + i*20 for i in range(0, (9981-21)//20 + 1)]
+
+# Empty lists
+No = []
+Company = []
+Sector = []
+Industry = []
+Country = []
+PE = []
+PEG = []
+PB = []
+Dividend = []
+EPS = []
+ROA = []
+ROE = []
+DE = []
+ProfitM = []
+Beta = []
+Earnings = []
+Volume = []
+Price = []
+Change = []
+Ticker = []
+                    </code></pre>
+                </div>
+            </div>    
+            
+            <h3>Step 3: Loop for page scraping</h3>
+
+            <p>Iterate over each index in sequence to access different pages of the screener.</p>
+            <li><strong>main_url:</strong> Builds the URL for each page of the website screener.</li>
+            <li><strong>headers:</strong> Simulates a browser (Chrome) to avoid server crashes.</li>
+            <li><strong>requests.get:</strong> Performs an HTTP request to get the page content.</li>
+            <li><strong>BeautifulSoup:</strong> Parses the HTML of the page to facilitate data extraction.</li>
+            <div class="accordion-item">
+                <button class="accordion-header">Loop for scraping (Click to expand code)</button>
+                <div class="accordion-content">
+                    <pre><code>
+for i in pages:
+    main_url = 'https://****.com/screener.****='+str(i)
+    headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36"}
+    main_response = requests.get(main_url, headers=headers)
+    main_soup = BeautifulSoup(main_response.text,'html.parser')
+                    </code></pre>
+                </div>
+            </div>
+
+            <h3>Step 4: Table extraction</h3>
+            <li>Find the main table with the styled-table-new... class in the HTML.</li>
+            <li>Extracts the header (<tr> with align='center').</li>
+            <li>Gets all header cells (<th> with class table-header cursor-pointer).</li>
+            <li>Stores column names in the cols list (e.g. “No”, “Ticker”, “Company”, etc.).</li>
+            <div class="accordion-item">
+                <button class="accordion-header">Table extraction (Click to expand code)</button>
+                <div class="accordion-content">
+                    <pre><code>
+table = main_soup.find('table',class_='styled-table-new is-rounded is-tabular-nums w-full screener_table')
+header = table.find('tr',align='center')
+header2 = header.find_all('th',class_='table-header cursor-pointer')
+cols = []
+
+for i in header2:
+    col = i.text
+    cols.append(col)
+                    </code></pre>
+                </div>
+            </div>
+
+            <h3>Step 5: Rows extraction</h3>
+            <p>Find all data and for each row:</p>
+            <li>Extracts all cells (<td> with height='10').</li>
+            <li>Saves the text of each cell in a temporary list (temp).</li>
+            <li>Adds temp to the rows1 list, which contains the data of all rows.</li>
+            <div class="accordion-item">
+                <button class="accordion-header">Rows extraction (Click to expand code)</button>
+                <div class="accordion-content">
+                    <pre><code>    
+rows = table.find_all('tr',valign='top')
+rows1 = []
+for i in rows:
+    test = i.find_all('td',height='10')
+    temp = []
+    for j in test:
+        temp.append(j.text)
+    rows1.append(temp)
+                </code></pre>
+            </div>
+        </div>
+
+            <h3>Step 6: Data storage in lists</h3>
+            <li>Iterates over the extracted rows (rows1).</li>
+            <li>It assigns the values of each column to the corresponding list according to the cell index. For example, i[0] is the row number (No), i[1] is the ticker, etc.</li>
+            <div class="accordion-item">
+                <button class="accordion-header">Data storage in lists (Click to expand code)</button>
+                <div class="accordion-content">
+                    <pre><code>
+for i in rows1:
+    No.append(i[0])
+    Ticker.append(i[1])
+    Company.append(i[2])
+    Sector.append(i[3])
+    Industry.append(i[4])
+    Country.append(i[5])
+    PE.append(i[7])
+    PEG.append(i[8])
+    PB.append(i[9])
+    Dividend.append(i[10])
+    EPS.append(i[11])
+    ROA.append(i[12])
+    ROE.append(i[13])
+    DE.append(i[14])
+    ProfitM.append(i[15])
+    Beta.append(i[16])
+    Earnings.append(i[17])
+    Volume.append(i[18])
+    Price.append(i[19])
+    Change.append(i[20])
+                    </code></pre>
+                </div>
+            </div>
+
+
+            <h3>Step 7: Dataframe creation</h3>
+            <p>Create a pandas DataFrame with the lists as columns. The column names are more descriptive than the original ones (e.g. Symbol for Ticker, Debt_Equity for DE).</p>
+            <div class="accordion-item">
+                <button class="accordion-header">Create and process dataset (Click to expand code)</button>
+                <div class="accordion-content">
+                    <pre><code>
+df = pd.DataFrame({'Symbol':Ticker,
+    'Company':Company,
+    'Sector':Sector,
+    'Industry':Industry,
+    'Country':Country,
+    'Price':Price,
+    'ROA':ROA,
+    'ROE':ROE,       
+    'Beta':Beta,       
+    'Debt_Equity':DE,                   
+    'Price_Earning':PE,
+    'EPS':EPS,                
+    'PEG':PEG,
+    'Change':Change,                   
+    'Price_Book':PB,
+    'Payment_Date':Earnings,                   
+    'Dividend':Dividend,
+    'Profit_Margin':ProfitM,
+    'Volume':Volume
+    })
+
+df = df.applymap(lambda x: 'null' if x == '-' else x)
+
+cols_to_modify = ['Price', 'ROA', 'ROE', 'Profit_Margin', 'Change',
+                'Price_Earning', 'PEG', 'Price_Book', 'EPS',
+                'Debt_Equity', 'Beta', 'Dividend']
+
+for col in cols_to_modify:
+    df[col] = df[col].astype(str)
+    df[col] = df[col].str.replace('%', '')
+    df[col] = df[col].str.replace('.', ',')
+                    </code></pre>
+                </div>
+            </div>
+
+            <h3>Step 8: Data cleaning and formatting of numeric columns</h3>
+            <p>Data cleaning:</p>
+            <li>Replaces all '-' values in the DataFrame with 'null'. This ensures that empty or unavailable data is handled consistently.</li>
+
+            <p>Numeric columns formatting</p>
+            <ol>
+            <li>Selects columns containing numeric values or percentages.</li>
+            <li>Converts each column to type str for manipulation.</li>
+            <li>Removes the percent symbol (%).</li>
+            <li>Replaces the decimal point (.) with a comma (,), probably to comply with a regional format (for example, in some countries the comma is used as a decimal separator).</li>
+            </ol>
+            <div class="accordion-item">
+                <button class="accordion-header">Create and process dataset (Click to expand code)</button>
+                <div class="accordion-content">
+                    <pre><code>
+df = df.applymap(lambda x: 'null' if x == '-' else x)
+
+cols_to_modify = ['Price', 'ROA', 'ROE', 'Profit_Margin', 'Change',
+                'Price_Earning', 'PEG', 'Price_Book', 'EPS',
+                'Debt_Equity', 'Beta', 'Dividend']
+
+for col in cols_to_modify:
+    df[col] = df[col].astype(str)
+    df[col] = df[col].str.replace('%', '')
+    df[col] = df[col].str.replace('.', ',')
+                    </code></pre>
+                </div>
+            </div>
+            
+            <p>Finally, we arrived at the desired output. We can export it to different formats such as csv, excel, json, among others.</p>
+
+            <p style="text-align: center;"><strong>Figure 2:</strong> Scraped market data</p>
+            <img src="images/finance_scraping/2.jpg" alt="Market data Screenshot" class="centered-image-linearmodel">
+
+                        </code></pre>
+                    </div>
+                </div>           
+ 
+            <h2>Conclusions</h2>
+            <p>Thus, we can see how, with a bit of ingenuity and using basic Python libraries such as <code>requests</code>, <code>BeautifulSoup</code>, and <code>pandas</code>, it is possible to efficiently and structurally extract financial data from websites. This approach enables the collection of valuable information for further analysis. If you want to explore one of the practical applications of this data extraction, I invite you to check out my Power BI report, where I have used this data to create an interactive dashboard that supports my investment decision-making. You can view it by clicking <a href="market-fundamentals-analysis.html">here</a>.</p>
+            
+            
+        </section>
+    </main>
+    <script>
+        // JavaScript para manejar el accordion
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isOpen = content.style.display === 'block';
+
+                // Cerrar todos los contenidos abiertos
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.style.display = 'none';
+                });
+
+                // Mostrar u ocultar el contenido clicado
+                content.style.display = isOpen ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>
