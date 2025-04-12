@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>White's Correction Matrix for Heteroskedasticity in Finite Samples - Juan Benitez</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>White's Correction Matrix for Heteroskedasticity in Finite Samples</h1>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </header>
+    <main>
+        <section class="project-details">
+            <h2>Overview</h2>
+            <p>In this exercise, the correction proposed by White will be explored to estimate the variance and covariance of the coefficients obtained through ordinary least squares in finite samples. The main objective is to understand the calculation of this matrix in the presence of heteroskedasticity. In this way, the variance to be estimated is sought, which is defined as follows:</p>
+
+            <p style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mi>Var</mi>
+                    <mo>(</mo>
+                    <mover><mi>β</mi><mo>^</mo></mover>
+                    <mo>)</mo>
+                    <mo>=</mo>
+                    <msup>
+                        <mrow>
+                            <mo>(</mo>
+                            <munder>
+                                <mo>∑</mo>
+                                <mi>i</mi>
+                            </munder>
+                            <msup><msub><mi>x</mi><mi>i</mi></msub><mo>′</mo></msup>
+                            <msub><mi>x</mi><mi>i</mi></msub>
+                            <mo>)</mo>
+                        </mrow>
+                        <mrow><mo>-</mo><mn>1</mn></mrow>
+                    </msup>
+                    <mrow>
+                        <mo>(</mo>
+                        <munder>
+                            <mo>∑</mo>
+                            <mi>i</mi>
+                        </munder>
+                        <msup><msub><mi>x</mi><mi>i</mi></msub><mo>′</mo></msup>
+                        <mover><msub><mi>u</mi><mi>i</mi></msub><mo>^</mo></mover>
+                        <mover>
+                            <msub>
+                                <mi>u</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mo>^</mo>
+                        </mover>
+                        <msup>
+                            <mo></mo>
+                            <mo>′</mo>
+                        </msup>
+
+                        <msub><mi>x</mi><mi>i</mi></msub>
+                        <mo>)</mo>
+                    </mrow>
+                    <msup>
+                        <mrow>
+                            <mo>(</mo>
+                            <munder>
+                                <mo>∑</mo>
+                                <mi>i</mi>
+                            </munder>
+                            <msup><msub><mi>x</mi><mi>i</mi></msub><mo>′</mo></msup>
+                            <msub><mi>x</mi><mi>i</mi></msub>
+                            <mo>)</mo>
+                        </mrow>
+                        <mrow><mo>-</mo><mn>1</mn></mrow>
+                    </msup>
+                </math>
+            </p>
+            
+            <p>Let’s consider the following model:</p>
+            
+            <p style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msub><mi>Y</mi><mi>i</mi></msub>
+                    <mo>=</mo>
+                    <msub><mi>β</mi><mn>0</mn></msub>
+                    <mo>+</mo>
+                    <msub><mi>β</mi><mn>1</mn></msub>
+                    <msub><mi>x</mi><mn>1i</mn></msub>
+                    <mo>+</mo>
+                    <msub><mi>β</mi><mn>2</mn></msub>
+                    <msub><mi>x</mi><mn>2i</mn></msub>
+                    <mo>+</mo>
+                    <msqrt>
+                        <msub><mi>v</mi><mi>i</mi></msub>
+                    </msqrt>
+                    <msub><mi>u</mi><mi>i</mi></msub>
+                    <mtext>&nbsp;with&nbsp;</mtext>
+                    <mi>i</mi>
+                    <mo>=</mo>
+                    <mn>1</mn>
+                    <mo>,</mo>
+                    <mn>2</mn>
+                    <mo>,</mo>
+                    <mo>…</mo>
+                    <mo>,</mo>
+                    <mi>n</mi>
+                </math>
+            </p>
+            
+            <p>The same applies to two variants depending on the behavior of the error:</p>
+            
+            <li><strong>Design 1:</strong> normality and heteroskedasticity</li>
+            <p style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msub><mi>u</mi><mi>i</mi></msub>
+                    <mo>~</mo>
+                    <mi>N</mi>
+                    <mo>(</mo>
+                    <mn>0</mn>
+                    <mo>,</mo>
+                    <mn>1</mn>
+                    <mo>)</mo>
+                </math>
+                <mtext> and </mtext>
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msub><mi>v</mi><mi>i</mi></msub>
+                    <mo>~</mo>
+                    <msup>
+                        <mi>exp</mi>
+                        <mrow>
+                            <mn>0.25</mn>
+                            <msub><mi>x</mi><mn>1i</mn></msub>
+                            <mo>+</mo>
+                            <mn>0.25</mn>
+                            <msub><mi>x</mi><mn>2i</mn></msub>
+                        </mrow>
+                    </msup>
+                </math>
+            </p>
+            <li><strong>Design 2:</strong> non-normality and heteroskedasticity</li>
+            <p style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msub><mi>u</mi><mi>i</mi></msub>
+                    <mo>~</mo>
+                    <msub><mi>t</mi><mn>5</mn></msub>
+                </math>
+                <mtext> and </mtext>
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msub><mi>v</mi><mi>i</mi></msub>
+                    <mo>~</mo>
+                    <msup>
+                        <mi>exp</mi>
+                        <mrow>
+                            <mn>0.25</mn>
+                            <msub><mi>x</mi><mn>1i</mn></msub>
+                            <mo>+</mo>
+                            <mn>0.25</mn>
+                            <msub><mi>x</mi><mn>2i</mn></msub>
+                        </mrow>
+                    </msup>
+                </math>
+            </p>
+            
+            <p>The population model considers that each of the β coefficients is equal to 1. 5000 replicates of this model have been estimated for each of the error designs for different sample sizes (20, 60, 100, 200, 400, and 600). It is important to highlight that the error depends on the variables <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>1</mn></msub></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>2</mn></msub></math> through the factor <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>v</mi><mi>i</mi></msub></math>.</p>
+            
+            <p>With the results of the estimations, we proceed to calculate the White matrix, from which we then extract the relative errors for each of the β coefficients and the total error, which is the sum of the individual errors.</p>       
+            
+            <h2>Python Code and Analysis</h2>
+            <p>The population model considers that each of the β coefficients is equal to 1. 5000 replicates of this model have been estimated for each of the error designs for different sample sizes (20, 60, 100, 200, 400, and 600). It is important to highlight that the error depends on the variables <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>1</mn></msub></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>2</mn></msub></math> through the factor <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>v</mi><mi>i</mi></msub></math>.</p>
+            
+            <p>With the results of the estimations, we proceed to calculate the White matrix, from which we then extract the relative errors for each of the β coefficients and the total error, which is the sum of the individual errors.</p>
+
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Import Packages (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+import scipy.stats as stats
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Set Parameters (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+# Define the seed for replicability
+np.random.seed(4678) 
+
+# Number of replications
+num_simulations = 5000
+
+# Sample size
+N = [1, 3, 5, 10, 20, 30]
+
+# Designs
+designs = [1, 2]
+                        </code></pre>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Simulations (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+# Function to perform a simulation
+def simulate(n, design, use_true_errors=False):
+    num_replications = num_simulations
+
+    errors = np.zeros((num_replications, 12))
+
+    for m in range(num_replications):
+        # Generate data
+        X1 = np.tile(np.array([-1.1] + list(np.linspace(-1, 1, 18)) + [1.1]), n)
+        X2 = np.random.normal(0, 1, 20 * n)
+        X = np.column_stack((np.ones(20 * n), X1, X2))
+        
+        # Generate data according to the chosen design
+        if design == 1:
+            u = np.random.normal(0, 1, 20 * n) # Design 1
+        elif design == 2:
+            u = stats.t.rvs(5, size=20*n) # Design 2
+
+        V = np.exp(0.25 * X1 + 0.25 * X2)
+        Y = 1 + X1 + X2 + np.sqrt(V) * u # u depends on the design selected when executing the function
+
+        # Ordinary Least Squares Estimation
+        model = sm.OLS(Y, X)
+        results = model.fit()
+
+        # Construction of White's matrix
+        # Define the type of error to be used
+        if use_true_errors:
+            omega_hat = np.diag(V * u**2) # Use real errors
+        else:
+            residuals = results.resid
+            omega_hat = np.diag(residuals**2) # Use the squared residuals
+
+        # Construct the white matrix using the true errors or squared residuals as selected.
+        var_cov_matrix_white = np.linalg.inv(X.T @ X) @ X.T @ omega_hat @ X @ np.linalg.inv(X.T @ X)
+
+        # Add individual relative biases
+        errors[m, 0:3] = (var_cov_matrix_white[0, 0] - results.cov_params()[0, 0]) / results.cov_params()[0, 0]
+        errors[m, 4:7] = (var_cov_matrix_white[1, 1] - results.cov_params()[1, 1]) / results.cov_params()[1, 1]
+        errors[m, 8:11] = (var_cov_matrix_white[2, 2] - results.cov_params()[2, 2]) / results.cov_params()[2, 2]
+
+    return errors
+                        </code></pre>
+                    </div>
+                </div>         
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Iterations (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+# Define an empty DataFrame to then add the information
+df_results = pd.DataFrame(columns=['Design', 'N', 'ER Beta_0', 'ER Beta_1', 'ER Beta_2', 'ER Total'])
+
+# Iterate through the designs, thus ensuring that Design 1 and then Design 2 are estimated first.
+for design in designs:
+    # Iterate by sample sizes
+    for n in N:
+        # Calculate the errors for White's matrix with true errors, for this we use use_true_errors=True
+        errors_true_errors = simulate(n, design, use_true_errors=True)
+        # Calculation of the mean of individual relative biases
+        individual_relative_biases_true_errors = np.mean(errors_true_errors, axis=0)
+        # Calculate the total relative bias as the sum of the absolute value of the individual relative biases.
+        individual_relative_bias_true_errors = np.abs(individual_relative_biases_true_errors[0]) + np.abs(individual_relative_biases_true_errors[4]) + np.abs(individual_relative_biases_true_errors[8])
+
+        # Add results to the DataFrame for true errors
+        df_results = pd.concat([df_results, pd.DataFrame({
+            'Design': [design],
+            'N': [n * 20],
+            'ER Beta_0': [individual_relative_biases_true_errors[0]],
+            'ER Beta_1': [individual_relative_biases_true_errors[4]],
+            'ER Beta_2': [individual_relative_biases_true_errors[8]],
+            'ER Total': [individual_relative_bias_true_errors],
+            'Error Type': ['True']
+        })], ignore_index=True)
+
+        # Calculate the errors for White's matrix with squared residuals, for this we use use_true_errors=False
+        errors_resid_squared = simulate(n, design, use_true_errors=False)
+        # Calculation of the mean of individual relative biases
+        individual_relative_biases_sq_resid = np.mean(errors_resid_squared, axis=0)
+        # Calculate the total relative bias as the sum of the absolute value of the individual relative biases.
+        individual_relative_bias_sq_resid = np.abs(individual_relative_biases_sq_resid[0]) + np.abs(individual_relative_biases_sq_resid[4]) + np.abs(individual_relative_biases_sq_resid[8])
+
+        # Add results to the DataFrame for true errors
+        df_results = pd.concat([df_results, pd.DataFrame({
+            'Design': [design],
+            'N': [n * 20],
+            'ER Beta_0': [individual_relative_biases_sq_resid[0]],
+            'ER Beta_1': [individual_relative_biases_sq_resid[4]],
+            'ER Beta_2': [individual_relative_biases_sq_resid[8]],
+            'ER Total': [individual_relative_bias_sq_resid],
+            'Error Type': ['Square Residuals']
+        })], ignore_index=True)
+                        </code></pre>
+                    </div>
+                </div>
+
+                <p>First, the model replicas were estimated and the White matrix was calculated using the MCC residuals. The results of this case are reflected in Table 1, where it is verified that both individual and total errors decrease as the sample size increases. Therefore, we can affirm that the estimation of the variance and covariance matrix using the White correction is consistent.</p>
+
+                <p style="text-align: center;"><strong>Table 1:</strong> Relative errors of the white matrix using residual errors</p>
+                <img src="images/white_matrix/1.jpg" alt="Relative errors residual errors Screenshot" class="centered-image-linearmodel">
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Relative errors of the white matrix using residual errors (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+square_res1 = df_results[(df_results["Design"] == 1) & (df_results["Error Type"] == "Square Residuals")]
+square_res1.set_index('N', inplace=True)
+square_res1 = square_res1.drop(['Design', 'Error Type'], axis=1)
+print(square_res1)
+
+square_res2 = df_results[(df_results["Design"] == 2) & (df_results["Error Type"] == "Square Residuals")]
+square_res2.set_index('N', inplace=True)
+square_res2 = square_res2.drop(['Design', 'Error Type'], axis=1)
+print(square_res2)
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <p>On the other hand, we have estimated the White correction matrix using the model's actual errors, instead of using the residual error. For this, we raised the actual errors to the square and introduced them into a diagonal matrix, obtaining as a result the relative errors shown in Table 2.</p>
+
+                <p style="text-align: center;"><strong>Table 2:</strong> Relative errors of the white matrix using real errors</p>
+                <img src="images/white_matrix/2.jpg" alt="Relative errors residual errors Screenshot" class="centered-image-linearmodel">
+                <div class="accordion-item">
+                    <button class="accordion-header">Relative errors of the white matrix using real errors (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+true_error1 = df_results[(df_results["Design"] == 1) & (df_results["Error Type"] == "True")]
+true_error1.set_index('N', inplace=True)
+true_error1 = true_error1.drop(['Design', 'Error Type'], axis=1)
+print(true_error1)
+
+true_error2 = df_results[(df_results["Design"] == 2) & (df_results["Error Type"] == "True")]
+true_error2.set_index('N', inplace=True)
+true_error2 = true_error2.drop(['Design', 'Error Type'], axis=1)
+print(true_error2)
+                        </code></pre>
+                    </div>
+                </div>
+                <p>The results in Table 2 indicate that, if we knew the actual errors and could use them to calculate the White correction matrix, then the relative errors would be much smaller than those obtained using the residual errors, for any sample size of N.</p>                
+ 
+            <h2>Conclusions</h2>
+            <p>Based on the estimates made with the proposed model, we have been able to verify that the correction proposed by White for estimating the variance and covariance matrix using MCC is effective in addressing heteroscedasticity in finite samples.</p>
+
+            <p>Using this correction matrix, a decrease in relative errors, both individual and total, has been observed as the sample size increases. This suggests that the estimation is consistent and will provide more precise estimates as the sample size grows.</p>
+            
+            <p>This latter point is verified both in the case of using residual errors and in the case where we use the model's actual errors. In favor of using actual errors, it has been observed that the relative errors obtained when considering these errors are lower than those obtained using residual errors. However, the main limitation we encounter is that the model's actual errors are unknown.</p>
+            
+            <p>Therefore, we can conclude that the White correction matrix provides consistent estimates and that, if we knew the actual errors and could use them instead of residuals, the estimates would be even more consistent.</p>
+            
+            
+        </section>
+    </main>
+    <script>
+        // JavaScript para manejar el accordion
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isOpen = content.style.display === 'block';
+
+                // Cerrar todos los contenidos abiertos
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.style.display = 'none';
+                });
+
+                // Mostrar u ocultar el contenido clicado
+                content.style.display = isOpen ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>
