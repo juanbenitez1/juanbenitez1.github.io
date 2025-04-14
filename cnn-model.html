@@ -221,7 +221,7 @@ validation_steps = 2000) # Every how many passes we will validate our result in 
             <p>This procedure ensures consistency with the preprocessing applied to the training data, guaranteeing reliable predictions and demonstrating the practical applicability of the model in real-world scenarios.</p>
             
             <div class="accordion-item">
-                <button class="accordion-header">Data Load & Model Training (Click to expand code)</button>
+                <button class="accordion-header">Predictions (Click to expand code)</button>
                 <div class="accordion-content">
                     <pre><code>
 test_image = image.load_img('dataset/single_prediction/cat_or_dog_1.jpg', target_size = (64, 64))
@@ -311,7 +311,7 @@ else:
             </div>
             
             <p class="centered-title">Figure 10: Model Predictions</p>
-            <img src="images/cnn_model/Results.jpg" alt="Predictions Result" class="result-image">
+            <img src="images/cnn_model/results.jpg" alt="Predictions Result" class="result-image">
         
         <h2>Conclusions</h2>
         <p>The developed Convolutional Neural Network model demonstrated excellent performance by correctly classifying all six provided images as either cats or dogs. This result highlights the CNN's ability to extract and learn relevant patterns from images, thanks to the implemented architecture featuring convolutional, pooling, and dense layers, combined with proper preprocessing and effective training. The accuracy achieved in the predictions suggests that the model is well-tuned for this binary classification task, serving as a solid foundation for future improvements or applications in more complex computer vision tasks.</p>          
