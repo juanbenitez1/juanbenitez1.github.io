@@ -64,45 +64,57 @@
         <section class="projects-section" id="projects">
             <h2>My Projects</h2>
             <div class="filter-buttons">
-                <button id="powerbi-btn" onclick="filterProjects('powerbi')" class="active">Power BI</button>
-                <button id="python-btn" onclick="filterProjects('python')">Python</button>
+                <button id="python-btn" onclick="filterProjects('python')" class="active">Python</button>
+                <button id="powerbi-btn" onclick="filterProjects('powerbi')">Power BI</button>
             </div>
             <div class="projects">
                 <div class="project-card" data-category="powerbi">
                     <img src="images/proyecto_superstore.jpg" alt="Sales, Profit & Shipping Analysis Thumbnail" class="project-thumb">
-                    <h2>Sales, Profit & Shipping Analysis</h2>
+                    <h2><a href="sales-profit-shipping-analysis.html">Sales, Profit & Shipping Analysis</a></h2>
                     <p>A Power BI dashboard to analyze sales, profit trends, and shipping costs across markets, categories, and shipping modes to optimize business operations.</p>
                     <a href="sales-profit-shipping-analysis.html">View Details</a>
                 </div>
                 <div class="project-card" data-category="powerbi">
                     <img src="images/proyecto_fundamentals.jpg" alt="Market Fundamentals Comparison Thumbnail" class="project-thumb">
-                    <h2>Market Fundamentals Comparison</h2>
+                    <h2><a href="market-fundamentals-analysis.html">Market Fundamentals Comparison</a></h2>
                     <p>A Power BI report comparing company performance across sectors, analyzing metrics like ROE, profit margins, and debt/equity ratios for strategic insights.</p>
                     <a href="market-fundamentals-analysis.html">View Details</a>
                 </div>
                 <div class="project-card" data-category="python">
                     <img src="images/inference_linear_model/3.jpg" alt="Asymptotic Inference Analysis" class="project-thumb">
-                    <h2>Asymptotic Inference Analysis</h2>
+                    <h2><a href="inference-in-the-linear-regression.html">Asymptotic Inference Analysis</a></h2>
                     <p>A Python-based simulation study to analyze asymptotic inference in linear regression without assuming error normality, comparing test sizes and coefficient convergence across diverse error distributions to enhance statistical modeling accuracy.</p>
                     <a href="inference-in-the-linear-regression.html">View Details</a>
                 </div>
                 <div class="project-card" data-category="python">
                     <img src="images/fgls_model/miniatura.jpg" alt="Finite Sample Properties of the FGLS Estimator" class="project-thumb">
-                    <h2>Finite Sample Properties of the FGLS Estimator</h2>
+                    <h2><a href="fgls-estimation.html">Finite Sample Properties of the FGLS Estimator</a></h2>
                     <p>This section presents an analysis of the finite sample behavior of the Feasible Generalized Least Squares (FGLS) estimator. Explore its performance under various sample sizes, model configurations, and heteroskedasticity structures.</p>
                     <a href="fgls-estimation.html">View Details</a>
                 </div>
                 <div class="project-card" data-category="python">
                     <img src="images/white_matrix/miniatura.jpg" alt="White's Correction Matrix" class="project-thumb">
-                    <h2>White's Correction Matrix</h2>
+                    <h2><a href="white-correction-matrix.html">White's Correction Matrix</a></h2>
                     <p>This section examines the White correction method, which adjusts the variance and covariance matrix of coefficients estimated via ordinary least squares in finite samples. The approach corrects for heteroscedasticity in linear models, ensuring robust standard errors and more reliable statistical inferences.</p>
                     <a href="white-correction-matrix.html">View Details</a>
                 </div>
                 <div class="project-card" data-category="python">
                     <img src="images/finance_scraping/miniatura.jpg" alt="Financial Data Scraping" class="project-thumb">
-                    <h2>Financial Data Scraping</h2>
+                    <h2><a href="finance_scraping.html">Financial Data Scraping</a></h2>
                     <p>This Python script uses <code>requests</code> and <code>BeautifulSoup</code> to scrape financial data from Finviz, organizing it into a structured <code>pandas</code> DataFrame. It extracts metrics like stock prices, ratios, and company details, then formats them for analysis, such as in a Power BI dashboard.</p>
                     <a href="finance_scraping.html">View Details</a>
+                </div>
+                <div class="project-card" data-category="python">
+                    <img src="images/ann_model/miniatura.jpg" alt="Binary Classification with Artificial Neural Networks" class="project-thumb">
+                    <h2><a href="ann-model.html">Binary Classification with Artificial Neural Networks</a></h2>
+                    <p>This project addresses a binary classification problem using artificial neural networks. A model is developed using Keras, evaluated with cross-validation and optimized using Grid Search to improve its accuracy and robustness.</p>
+                    <a href="ann-model.html">View Details</a>
+                </div>
+                <div class="project-card" data-category="python">
+                    <img src="images/cnn_model/miniatura.jpg" alt="Image Recognition with Convolutional Neural Networks" class="project-thumb">
+                    <h2><a href="cnn-model.html">Image Recognition with Convolutional Neural Networks</a></h2>
+                    <p>In this project, I implemented a Convolutional Neural Network using Keras to classify images of dogs and cats, utilizing an architecture designed with convolutional, pooling, and dense layers, trained the model with preprocessed data, and achieved accurate classification on test images.</p>
+                    <a href="cnn-model.html">View Details</a>
                 </div>
             </div>
         </section>
@@ -156,7 +168,7 @@
 
         // Mostrar los proyectos de Power BI por defecto al cargar la página
         document.addEventListener('DOMContentLoaded', () => {
-        filterProjects('powerbi');
+        filterProjects('python');
         
         // Smooth scroll para los links de navegación
         const navLinks = document.querySelectorAll('.nav-link');
