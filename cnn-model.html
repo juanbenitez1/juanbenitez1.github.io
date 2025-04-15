@@ -140,7 +140,7 @@ classifier.add(Flatten())
 We use the "Dense" function which is in charge of adding hidden layers to the neural network.
 We must specify their size, i.e. how many nodes are in the next layer.
 """
-classifier.add(Dense(units = 128, activation = 'relu')) # We use relu because it is a hidden layer to know if the layer is activated or not through a linear rectifier. unitario
+classifier.add(Dense(units = 128, activation = 'relu')) # We use relu because it is a hidden layer to know if the layer is activated or not through a unitary linear rectifier.
 classifier.add(Dense(units = 1, activation = 'sigmoid')) # Output layer uses sigmoid, probability of belonging to each of the classes
 # We use units = 1 because it is a binary classification problem.
                     </code></pre>
