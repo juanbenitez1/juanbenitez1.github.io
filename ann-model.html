@@ -4,6 +4,39 @@
     <meta charset="UTF-8">
     <title>Binary Classification with Artificial Neural Networks - Juan Benitez</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .toc {
+            margin-bottom: 20px;
+        }
+        .toc-header {
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .toc-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        .toc-content ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .toc-content ul ul {
+            padding-left: 40px;
+        }
+        .toc-content a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+        .toc-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -12,13 +45,82 @@
     </header>
     <main>
         <section class="project-details">
-            <h2>Overview</h2>
+            <div class="toc">
+                <div class="toc-header">Content (Click to expand)</div>
+                <div class="toc-content">
+                    <ul>
+                        <li><a href="#introduction">Introduction</a>
+                            <ul>
+                                <li><a href="#overview">Overview</a></li>
+                                <li><a href="#use-case">Use case</a></li>
+                                <li><a href="#github-code">GitHub code</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#python-code-analysis">Python Code and Analysis</a>
+                            <ul>
+                                <li><a href="#part1">Part 1: Data pre-processing</a>
+                                    <ul>
+                                        <li><a href="#import-packages">Import Packages</a></li>
+                                        <li><a href="#import-dataset">Import Dataset and define variables</a></li>
+                                        <li><a href="#coding-categorical">Coding categorical data</a></li>
+                                        <li><a href="#one-hot-encoding">One-Hot encoding to avoid multicollinearity</a></li>
+                                        <li><a href="#data-splitting">Data splitting and variable normalization</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#part2">Part 2: Building the ANN</a>
+                                    <ul>
+                                        <li><a href="#initialize-ann">Initialize the ANN</a></li>
+                                        <li><a href="#input-layer">Add input layer and first hidden layer</a></li>
+                                        <li><a href="#second-hidden">Add second hidden layer</a></li>
+                                        <li><a href="#output-layer">Add output layer</a></li>
+                                        <li><a href="#compile-ann">Compile the ANN</a></li>
+                                        <li><a href="#adjust-ann">Adjusting the ANN to the Training Set</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#part3">Part 3: Evaluating the model and calculating final predictions</a>
+                                    <ul>
+                                        <li><a href="#test-prediction">Test set prediction and confusion matrix</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#part4">Part 4: Evaluating, Improving and Adjusting the ANN</a>
+                                    <ul>
+                                        <li><a href="#eval-improve">Part 4: Evaluating, Improving and Adjusting the ANN Code</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#part5">Part 5: Fine Tuning the ANN</a>
+                                    <ul>
+                                        <li><a href="#fine-tune">Code to Fine Tune the ANN</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="#conclusions">Conclusions</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2 id="introduction">Introduction</h2>
+            <h3 id="overview">Overview</h3>
             <p>The code provided implements an Artificial Neural Network (ANN) to solve a binary classification problem, specifically churn analysis in a bank. The objective is to predict whether a customer will leave the bank based on characteristics such as credit score, gender, age, balance, among others. We use a dataset (Churn_Modelling.csv) and build a model that includes data preprocessing, ANN construction, model evaluation, new case prediction, and optimization through cross-validation and hyperparameter tuning. The steps are explained in detail below, including what is done, why, and the meaning of the parameters used.</p>
             
-            <h2>Python Code and Analysis</h2>
+            <h3 id="use-case">Use case</h3>
+            <p>This project focuses on churn prediction for a bank, a common problem in the financial industry where retaining customers is critical. By identifying customers at risk of leaving, the bank can take proactive measures such as offering incentives or improving services to reduce churn rates.</p>
+            <p>Other specific applications of Artificial Neural Networks (ANNs) include:</p>
+            <li>Predicting which products users are most likely to purchase based on their purchase history.</li>
+            <li>Assessing the credit risk of clients based on their payment habits and financial behavior.</li>
+            <li>Classifying customers into groups with similar characteristics to personalize service or product offerings.</li>
+            <li>Predicting equipment failures or maintenance needs based on sensor data.</li>
+            <li>Estimating the effectiveness of advertising campaigns based on historical user behavior and interactions with ads.</li>
+            <p>ANNs are powerful tools for detecting complex patterns in large datasets, especially useful for prediction and classification in domains with high dimensionality.</p>
+            
+            <h3 id="github-code">GitHub code</h3>
+            <p>The complete code this project is available on GitHub: <a href="https://github.com/juanbenitez1/ANN-BinaryClasification/blob/main/ANN.py">Churn Prediction Code</a>.</p>
 
-            <h3>Part 1: Data pre-processing</h3>
+            <h2 id="python-code-analysis">Python Code and Analysis</h2>
 
+            <h3 id="part1">Part 1: Data pre-processing</h3>
+
+            <h4 id="import-packages">Import Packages</h4>
             <p>Packages to be imported:</p>
             <li><strong>numpy:</strong> Allows mathematical operations with arrays.</li>
             <li><strong>pandas:</strong> Facilitates the manipulation of data in tabular format.</li>
@@ -53,12 +155,17 @@ from sklearn.metrics import confusion_matrix
 from scikeras.wrappers import KerasClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
+                        </code></pre>
                     </div>
                 </div>
-            <div class="accordion-item">
-                <button class="accordion-header">Import dataset and define variables (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            </div>
+
+            <h4 id="import-dataset">Import Dataset and define variables</h4>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Import dataset and define variables (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Import the data set
 dataset = pd.read_csv('Churn_Modelling.csv')
 
@@ -66,31 +173,36 @@ dataset = pd.read_csv('Churn_Modelling.csv')
 # X includes the predictor characteristics (e.g., credit score, gender, age, etc).
 X = dataset.iloc[:, 3:13].values
 # y is the target variable (0 or 1, indicating whether the client drops out or not).
-y = dataset.iloc[:, 13].value
-                    </code></pre>
+y = dataset.iloc[:, 13].values
+                        </code></pre>
+                    </div>
                 </div>
             </div>    
 
+            <h4 id="coding-categorical">Coding categorical data</h4>
             <p>Now we utilize LabelEncoder to convert categorical variables in column 1 (country) and column 2 (gender) into numerical values, enabling compatibility with machine learning models. For example, countries such as "France," "Spain," and "Germany" are encoded as 0, 1, 2, and genders such as "Male" and "Female" as 0, 1.</p>
-
             <p>This transformation is essential because machine learning algorithms require numerical inputs. To further optimize the data and avoid multicollinearity, we apply one-hot encoding for dummy variables, generating binary columns while ensuring redundancy is addressed by dropping one column where necessary.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Coding categorical data (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Coding categorical data (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 labelencoder_X_1 = LabelEncoder() # Code column 1 (Country)
 X[:, 1] = labelencoder_X_1.fit_transform(X[:, 1]) # Code column 1 (Country)
 labelencoder_X_2 = LabelEncoder() # Code column 2 (Gender)
 X[:, 2] = labelencoder_X_2.fit_transform(X[:, 2]) # Code column 2 (Gender)
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
+            <h4 id="one-hot-encoding">One-Hot encoding to avoid multicollinearity</h4>
             <p>When using LabelEncoder for categorical variables like "country," where multiple categories exist, each country is assigned a numerical value (e.g., 0, 1, 2, 3). To address this, we apply one-hot encoding, creating a separate binary column (0 or 1) for each country. However, to avoid multicollinearity when generating columns for, say, three countries, we remove one column after encoding. This ensures that the absence of a 1 in the remaining columns implicitly indicates the third country, maintaining data integrity and model efficiency.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">One-Hot encoding to avoid multicollinearity (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">One-Hot encoding to avoid multicollinearity (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 transformer = ColumnTransformer(
     transformers=[
         ("Churn_Modelling",        # Transformation arbitrary name
@@ -102,16 +214,19 @@ transformer = ColumnTransformer(
 
 X = transformer.fit_transform(X) # Up to this point we have generated 3 columns
 X = X[:, 1:] # discard 1 column to avoid multicollinearity
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
+            <h4 id="data-splitting">Data splitting and variable normalization</h4>
             <p>We proceed by splitting the dataset into training and testing sets, allocating 80% of the data for training (X_train, y_train) and 20% for testing (X_test, y_test) with a test_size of 0.2 and random_state=0 to ensure reproducibility. This division enables the model to learn from the training set while evaluating its performance on unseen data in the test set, with the 20% split being a standard practice for balancing training and evaluation. </p>
             <p>Subsequently, we apply StandardScaler to standardize the independent variables, transforming them to have a mean of 0 and a standard deviation of 1. The scaler is fitted and applied to X_train using fit_transform to compute and apply the scaling parameters, while X_test is transformed using the same parameters via transform to prevent data leakage. This standardization enhances the performance of neural networks by ensuring all input features are on a consistent scale, preventing variables with larger ranges from disproportionately influencing the learning process.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Data splitting and variable normalization (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>    
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Data splitting and variable normalization (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>    
 # Create train and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
@@ -119,28 +234,34 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
-                </code></pre>
-            </div>
-        </div>
-
-            <h3>Part 2: Building the ANN</h3>
-            <p>We now proceed with the construction of the artificial neural network (ANN), utilizing the packages outlined in the first point of this section. Specifically, we import tools from Keras to build the ANN. The Sequential class enables the creation of a model by stacking layers sequentially, while Dense defines fully connected layers to establish the network’s architecture. Additionally, Dropout is incorporated as a regularization technique to mitigate overfitting, enhancing the model’s generalization capability.</p>
-
-            <p>To construct the artificial neural network (ANN), we follow a structured sequence of steps to ensure a robust and effective model. We begin by initializing the ANN using the Sequential class from Keras, which creates an empty sequential model to which layers can be added in an orderly manner. This approach facilitates a clear and modular architecture, allowing us to build the network layer by layer.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Initialize the ANN (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
-classifier = Sequential()
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
+            <h3 id="part2">Part 2: Building the ANN</h3>
+            <p>We now proceed with the construction of the artificial neural network (ANN), utilizing the packages outlined in the first point of this section. Specifically, we import tools from Keras to build the ANN. The Sequential class enables the creation of a model by stacking layers sequentially, while Dense defines fully connected layers to establish the network’s architecture. Additionally, Dropout is incorporated as a regularization technique to mitigate overfitting, enhancing the model’s generalization capability.</p>
+
+            <h4 id="initialize-ann">Initialize the ANN</h4>
+            <p>To construct the artificial neural network (ANN), we follow a structured sequence of steps to ensure a robust and effective model. We begin by initializing the ANN using the Sequential class from Keras, which creates an empty sequential model to which layers can be added in an orderly manner. This approach facilitates a clear and modular architecture, allowing us to build the network layer by layer.</p>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Initialize the ANN (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
+classifier = Sequential()
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h4 id="input-layer">Add input layer and first hidden layer</h4>
             <p>Next, we add the input layer and the first hidden layer. The input layer is defined within a dense layer comprising 6 neurons, with weights initialized using a uniform distribution (kernel_initializer="uniform") and activated by the ReLU function (activation="relu"). This layer accepts 11 input variables, reflecting the dataset’s features after one-hot encoding and the removal of one column to avoid multicollinearity (input_dim=11). The choice of 6 neurons is based on a common heuristic, averaging the number of input features (11) and the output (1). To enhance model robustness and prevent overfitting, a Dropout layer is incorporated, randomly deactivating 10% of the neurons (p=0.1) during each training iteration. This forces the network to learn more generalized representations, reducing dependency on specific neurons.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Add input layers and first hidden layer (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Add input layers and first hidden layer (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 """
 units = number of output nodes in the layer
 input_dim = number of input nodes of the layer, in this case they are the 11 indept. var.
@@ -158,15 +279,18 @@ output layer 1 so the average is 6
 # Add input layers and first hidden layer
 classifier.add(Dense(units = 6, kernel_initializer = "uniform",  activation = "relu", input_dim = 11))
 classifier.add(Dropout(rate = 0.1)) #rate: probability of deactivating a neuron or the fraction of neurons to be deactivated
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
+            <h4 id="second-hidden">Add second hidden layer</h4>
             <p>We then add a second hidden layer to capture more complex relationships within the data. This layer is also a dense layer with 6 neurons, maintaining the same uniform weight initialization and ReLU activation as the first hidden layer for architectural consistency. Since Keras automatically infers the input dimensions from the previous layer’s output (6 neurons), no input_dim specification is required. Another Dropout layer with a 10% deactivation rate is included to further mitigate overfitting, ensuring the model remains adaptable to unseen data.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Add the second hidden layer (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Add the second hidden layer (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 """
 We don't use the input dim in the second hidden layer, because you already know that the first layer
 returns 6 nodes
@@ -174,15 +298,18 @@ returns 6 nodes
 # Add the second hidden layer
 classifier.add(Dense(units = 6, kernel_initializer = "uniform",  activation = "relu"))
 classifier.add(Dropout(rate = 0.1))
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
             
+            <h4 id="output-layer">Add output layer</h4>
             <p>Finally, we define the output layer, which consists of a single dense neuron (units=1) to produce a binary prediction (e.g., whether a customer churns, 0 or 1). The sigmoid activation function (activation="sigmoid") is employed to output a probability between 0 and 1, making it suitable for binary classification tasks. Consistent with prior layers, weights are initialized uniformly (kernel_initializer="uniform") to maintain a balanced starting point. This carefully designed architecture, with sequential layers, ReLU activations, dropout regularization, and a sigmoid output, equips the ANN to effectively model the data while balancing complexity and generalization.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Add output layer (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Add output layer (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 """
 The sigmoid function is the most interesting function for the exit layer.
 It shows us the probability that the customer leaves the bank or not.
@@ -191,50 +318,56 @@ to change things, the parameter units would no longer be 1, but it would be the 
 We would also have to change the function, maybe to a step or relu function, because the
 sigmoid goes between 0 and 1.
 """
-# Add the second hidden layer
-classifier.add(Dense(units = 6, kernel_initializer = "uniform",  activation = "relu"))
-classifier.add(Dropout(rate = 0.1))
-                    </code></pre>
+# Add the output layer
+classifier.add(Dense(units = 1, kernel_initializer = "uniform",  activation = "sigmoid"))
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
+            <h4 id="compile-ann">Compile the ANN</h4>
             <p>Following the construction of the artificial neural network (ANN), we proceed to compile the model to prepare it for training. Compilation involves configuring the model with key components: the optimizer, the loss function, and the evaluation metric.</p>
             <p>We select the Adam optimizer (optimizer="adam") due to its efficiency and ability to adaptively adjust the learning rate, facilitating faster convergence. For the loss function, we employ binary cross-entropy (loss="binary_crossentropy"), the standard choice for binary classification tasks, as it effectively measures the discrepancy between the predicted probabilities and the actual binary labels. Additionally, we track the model’s performance using accuracy (metrics=["accuracy"]), which calculates the percentage of correct predictions during training.</p>
             <p>These settings—Adam optimization, binary cross-entropy loss, and accuracy monitoring—ensure the ANN is well-equipped to learn from the data and evaluate its predictive performance accurately.</p>
-
-            <div class="accordion-item">
-                <button class="accordion-header">Compile the ANN (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Compile the ANN (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 classifier.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
         
+            <h4 id="adjust-ann">Adjusting the ANN to the Training Set</h4>
             <p>With the artificial neural network (ANN) compiled, we now focus on training it by fitting the model to the training dataset. This step involves iteratively adjusting the model’s weights to minimize the binary cross-entropy loss defined during compilation. The training process employs a batch size of 10 (batch_size=10), meaning the model processes 10 samples at a time before updating the weights, striking a balance between computational efficiency and training stability.</p>
             <p>Additionally, we set the number of epochs to 100 (epochs=100), allowing the model to pass through the entire training dataset 100 times. This extensive iteration enables the ANN to deeply learn the underlying patterns in the data, refining its predictive capability.</p>
             <p>By carefully tuning these parameters—batch_size and epochs—the model optimizes its performance while maintaining stability during training.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Adjusting the ANN to the Training Set (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Adjusting the ANN to the Training Set (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 classifier.fit(X_train, y_train,  batch_size = 10, epochs = 100)
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
             <p style="text-align: center;"><strong>Video 1:</strong> Adjust ANN</p>
             <img src="images/ann_model/ann_1.gif" alt="Confusion Matrix Screenshot" class="centered-image-linearmodel">
 
-            <h3>Part 3: Evaluating the model and calculating final predictions</h3>
-
+            <h3 id="part3">Part 3: Evaluating the model and calculating final predictions</h3>
             <p>We now embark on a new phase where we evaluate the performance of the artificial neural network (ANN) and generate predictions.</p>
             <p>This process begins by using the trained model to predict probabilities for the test dataset (X_test), leveraging the sigmoid activation function in the output layer, which yields values between 0 and 1. To obtain binary classifications (0 or 1, representing whether a customer churns or not), we apply a threshold of 0.5 (> 0.5), assigning a prediction of 1 (churn) if the probability exceeds 0.5 and 0 (no churn) otherwise. This threshold-based approach ensures clear, interpretable results for binary classification.</p>
             <p>Subsequently, we assess the model’s performance through a confusion matrix, which provides a detailed breakdown of correct and incorrect predictions, enabling a comprehensive evaluation of the ANN’s accuracy and effectiveness.</p>
 
-            <div class="accordion-item">
-                <button class="accordion-header">Test set prediction and confusion matrix (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <h4 id="test-prediction">Test set prediction and confusion matrix</h4>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Test set prediction and confusion matrix (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Prediction of results with the Testing Set
 y_pred  = classifier.predict(X_test)
 y_pred = (y_pred>0.5)
@@ -242,7 +375,8 @@ y_pred = (y_pred>0.5)
 # Elaborate a confusion matrix
 cm = confusion_matrix(y_test, y_pred)
 print((cm[0][0]+cm[1][1])/cm.sum())
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
@@ -255,27 +389,28 @@ print((cm[0][0]+cm[1][1])/cm.sum())
 
             <p>To quantify the model’s overall performance, we calculate the accuracy as (cm[0][0] + cm[1][1]) / cm.sum(), yielding a value of 0.837. This indicates that the ANN correctly classified 83.7% of the customers in the test set, demonstrating a strong ability to distinguish between churners and non-churners, though there remains room for improvement in reducing false negatives and false positives to enhance predictive reliability.</p>
 
-            <h3><strong>Part 4:</strong> Evaluating, Improving and Adjusting the ANN</h3>
-
+            <h3 id="part4">Part 4: Evaluating, Improving and Adjusting the ANN</h3>
             <p>To evaluate, improve and tune the performance of the artificial neural network (ANN) model, a 10-fold cross-validation process was implemented. This approach allows the robustness of the model to be evaluated by dividing the data set into ten different subsets. In each iteration, the model is trained with nine of them and validated with the remaining one, rotating the validation fold in each cycle. In this way, a more reliable estimate of the overall model performance is obtained, as the dependence on a single data partition is minimized.</p>
 
-            <p>The technical implementation was done using the scikit-learn cross_val_score function, using the KerasClassifier wrapper to integrate a model built with Keras within the scikit-learn flow. The function in charge of building the neural network (build_classifier) defines a basic architecture with two hidden layers and an output layer for binary classification. In the cross-validation, the following parameters were set: a batch_size of 10, 100 training epochs (nb_epoch=100), and the use of all available processor cores (n_jobs=-1) to speed up the process. The parameter verbose=1 allows to visualize the progress during the execution.</p>
+            <p>The technical implementation was done using the scikit-learn cross_val_score function, using the KerasClassifier wrapper to integrate a model built with Keras within the scikit-learn flow. The function in charge of building the neural network (build_classifier) defines a basic architecture with twoservice hidden layers and an output layer for binary classification. In the cross-validation, the following parameters were set: a batch_size of 10, 100 training epochs (nb_epoch=100), and the use of all available processor cores (n_jobs=-1) to speed up the process. The parameter verbose=1 allows to visualize the progress during the execution.</p>
 
             <p>In addition, as a regularization technique, Dropout layers were included at a rate of 10% (p=0.1) in the hidden layers of the model. This technique consists of randomly deactivating a subset of neurons during training, which reduces co-adaptation between them and helps prevent overfitting. It is important to note that Dropout is only applied in the hidden layers and not in the output layer, so as not to negatively affect model predictions.</p>
 
             <p>The result of this process is a more stable and accurate estimate of model performance, represented by the mean and variance of the accuracies obtained in the different folds. While the mean reflects the average accuracy achieved, the variance allows us to evaluate the stability of the model against different subsets of data.</p>
 
-            <div class="accordion-item">
-                <button class="accordion-header">Evaluating, Improving and Adjusting the ANN (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <h4 id="eval-improve">Part 4: Evaluating, Improving and Adjusting the ANN Code</h4>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Evaluating, Improving and Adjusting the ANN (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 def build_classifier():
-classifier = Sequential()
-classifier.add(Dense(units = 6, kernel_initializer = "uniform", activation = "relu", input_dim = 11))
-classifier.add(Dense(units = 6, kernel_initializer = "uniform", activation = "relu"))
-classifier.add(Dense(units = 1, kernel_initializer = "uniform", activation = "sigmoid"))
-classifier.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
-return classifier
+    classifier = Sequential()
+    classifier.add(Dense(units = 6, kernel_initializer = "uniform", activation = "relu", input_dim = 11))
+    classifier.add(Dense(units = 6, kernel_initializer = "uniform", activation = "relu"))
+    classifier.add(Dense(units = 1, kernel_initializer = "uniform", activation = "sigmoid"))
+    classifier.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
+    return classifier
 
 classifier = KerasClassifier(build_fn = build_classifier, batch_size = 10, epochs = 100)
 accuracies = cross_val_score(estimator=classifier, X = X_train, y = y_train, cv = 10, n_jobs=-1, verbose = 1)
@@ -284,8 +419,8 @@ mean = accuracies.mean()
 variance = accuracies.std()
 
 print(mean, variance)
-                      
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
@@ -293,13 +428,15 @@ print(mean, variance)
 
             <p>On the other hand, the variance of the accuracy (variance ≈ 0.0185) provides information on the stability of the model against different partitions of the data set. A low variance value such as this indicates that the model performance is fairly consistent across the different folds of the cross-validation. In other words, the model is not overly dependent on a particular subset of data, which is a positive indication of generalization.</p>
 
-            <h3><strong>Part 5:</strong> Fine Tuning the ANN</h3>
+            <h3 id="part5">Part 5: Fine Tuning the ANN</h3>
             <p>To improve the performance of the artificial neural network model, a Grid Search hyperparameter tuning technique will be implemented. This process consists of systematically testing different combinations of values for certain key hyperparameters, with the objective of identifying the configuration that maximizes the performance of the model. In this case, the scikit-learn GridSearchCV class will be used, together with the KerasClassifier wrapper that allows the integration of Keras models into the scikit-learn ecosystem.</p>
 
-            <div class="accordion-item">
-                <button class="accordion-header">Fine Tuning the ANN (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <h4 id="fine-tune">Code to Fine Tune the ANN</h4>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Fine Tuning the ANN (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 def build_classifier(optimizer):
     classifier = Sequential()
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
@@ -318,7 +455,8 @@ grid_search = GridSearchCV(estimator = classifier,
 grid_search = grid_search.fit(X_train, y_train)
 best_parameters = grid_search.best_params_
 best_accuracy = grid_search.best_score_
-                    </code></pre>
+                        </code></pre>
+                    </div>
                 </div>
             </div>
 
@@ -326,11 +464,10 @@ best_accuracy = grid_search.best_score_
 
             <p>The evaluation of each hyperparameter combination was performed by 10-fold cross-validation, using accuracy as a performance metric. This strategy ensures robust and reliable performance estimation, as each configuration is tested on multiple partitions of the training set. At the end of the search, the grid_search object provides both the best hyperparameters found (best_params_) and the average accuracy associated with that configuration (best_score_).</p>
 
-            <h2>Conclusions</h2>
+            <h2 id="conclusions">Conclusions</h2>
             <p>Hyperparameter tuning using GridSearchCV determined that the best parameter combination for ANN is: batch_size=25, epochs=100 and optimizer='adam'. With this configuration, an average accuracy (best_accuracy) of 0.84875 (84.875%) was achieved in 10-fold cross-validation. This result indicates an improvement in model performance compared to the initial accuracy of 0.837 obtained on the test set, suggesting that these hyperparameters optimize learning for this classification problem.</p>
 
             <p>The use of adam as an optimizer and a moderate batch_size (25) seems to balance stability and convergence speed, while 100 epochs are sufficient for effective training without significant overfitting. However, given the class imbalance, it would be advisable to explore additional metrics such as F1-Score for the minority class (dropout customers) and consider techniques to improve their detection.</p>
-            
         </section>
     </main>
     <script>
@@ -348,6 +485,13 @@ best_accuracy = grid_search.best_score_
                 // Mostrar u ocultar el contenido clicado
                 content.style.display = isOpen ? 'none' : 'block';
             });
+        });
+
+        // JavaScript para manejar el índice desplegable
+        document.querySelector('.toc-header').addEventListener('click', () => {
+            const content = document.querySelector('.toc-content');
+            const isOpen = content.style.display === 'block';
+            content.style.display = isOpen ? 'none' : 'block';
         });
     </script>
 </body>
