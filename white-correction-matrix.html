@@ -4,6 +4,39 @@
     <meta charset="UTF-8">
     <title>White's Correction Matrix for Heteroskedasticity in Finite Samples - Juan Benitez</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .toc {
+            margin-bottom: 20px;
+        }
+        .toc-header {
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .toc-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        .toc-content ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .toc-content ul ul {
+            padding-left: 40px;
+        }
+        .toc-content a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+        .toc-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -12,9 +45,31 @@
     </header>
     <main>
         <section class="project-details">
-            <h2>Overview</h2>
-            <p>In this exercise, the correction proposed by White will be explored to estimate the variance and covariance of the coefficients obtained through ordinary least squares in finite samples. The main objective is to understand the calculation of this matrix in the presence of heteroskedasticity. In this way, the variance to be estimated is sought, which is defined as follows:</p>
+            <div class="toc">
+                <div class="toc-header">Content (Click to expand)</div>
+                <div class="toc-content">
+                    <ul>
+                        <li><a href="#introduction">Introduction</a>
+                            <ul>
+                                <li><a href="#overview">Overview</a></li>
+                                <li><a href="#use-case">Use case</a></li>
+                                <li><a href="#github-code">GitHub code</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#python-code-analysis">Python Code and Analysis</a>
+                            <ul>
+                                <li><a href="#code-setup">Import packages, set parameters, define functions and simulations</a></li>
+                                <li><a href="#results">Results</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#conclusions">Conclusions</a></li>
+                    </ul>
+                </div>
+            </div>
 
+            <h2 id="introduction">Introduction</h2>
+            <h3 id="overview">Overview</h3>
+            <p>In this exercise, the correction proposed by White will be explored to estimate the variance and covariance of the coefficients obtained through ordinary least squares in finite samples. The main objective is to understand the calculation of this matrix in the presence of heteroskedasticity. In this way, the variance to be estimated is sought, which is defined as follows:</p>
             <p style="text-align: center;">
                 <math xmlns="http://www.w3.org/1998/Math/MathML">
                     <mi>Var</mi>
@@ -54,7 +109,6 @@
                             <mo></mo>
                             <mo>′</mo>
                         </msup>
-
                         <msub><mi>x</mi><mi>i</mi></msub>
                         <mo>)</mo>
                     </mrow>
@@ -73,9 +127,7 @@
                     </msup>
                 </math>
             </p>
-            
             <p>Let’s consider the following model:</p>
-            
             <p style="text-align: center;">
                 <math xmlns="http://www.w3.org/1998/Math/MathML">
                     <msub><mi>Y</mi><mi>i</mi></msub>
@@ -92,7 +144,7 @@
                         <msub><mi>v</mi><mi>i</mi></msub>
                     </msqrt>
                     <msub><mi>u</mi><mi>i</mi></msub>
-                    <mtext>&nbsp;with&nbsp;</mtext>
+                    <mtext> with </mtext>
                     <mi>i</mi>
                     <mo>=</mo>
                     <mn>1</mn>
@@ -104,9 +156,7 @@
                     <mi>n</mi>
                 </math>
             </p>
-            
             <p>The same applies to two variants depending on the behavior of the error:</p>
-            
             <li><strong>Design 1:</strong> normality and heteroskedasticity</li>
             <p style="text-align: center;">
                 <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -158,16 +208,25 @@
                     </msup>
                 </math>
             </p>
-            
             <p>The population model considers that each of the β coefficients is equal to 1. 5000 replicates of this model have been estimated for each of the error designs for different sample sizes (20, 60, 100, 200, 400, and 600). It is important to highlight that the error depends on the variables <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>1</mn></msub></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>2</mn></msub></math> through the factor <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>v</mi><mi>i</mi></msub></math>.</p>
-            
-            <p>With the results of the estimations, we proceed to calculate the White matrix, from which we then extract the relative errors for each of the β coefficients and the total error, which is the sum of the individual errors.</p>       
-            
-            <h2>Python Code and Analysis</h2>
-            <p>The population model considers that each of the β coefficients is equal to 1. 5000 replicates of this model have been estimated for each of the error designs for different sample sizes (20, 60, 100, 200, 400, and 600). It is important to highlight that the error depends on the variables <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>1</mn></msub></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>2</mn></msub></math> through the factor <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>v</mi><mi>i</mi></msub></math>.</p>
-            
             <p>With the results of the estimations, we proceed to calculate the White matrix, from which we then extract the relative errors for each of the β coefficients and the total error, which is the sum of the individual errors.</p>
 
+            <h3 id="use-case">Use case</h3>
+            <p>This project investigates the application of White's correction matrix to address heteroskedasticity in finite samples, a common issue in regression analysis. This methodology is especially relevant for econometricians and statisticians working with datasets in economics, finance, or social sciences, where heteroskedasticity often violates the assumptions of ordinary least squares (OLS), and robust variance estimation is crucial for reliable inference.</p>
+            <p>Some potential applications are:</p>
+            <li>Estimate credit default risk for a bank.</li>
+            <li>Analyzing economic policies in specific regions with limited or biased data.</li>
+            <li>Evaluating investment risks in highly volatile markets.</li>
+            <li>Studying the relationship between poverty and social development in areas with sparse data.</li>
+            <li>Modeling asset prices in financial markets where heteroskedasticity is common.</li>
+            <p>Additionally, this approach justifies the use of robust corrections even when classical assumptions of normality and homoskedasticity are not met, allowing for better decision-making based on more accurate inferences.</p>
+
+            <h3 id="github-code">GitHub code</h3>
+            <p>The complete code for this project is available on GitHub: <a href="https://github.com/juanbenitez1/White-Correction-Matrix/blob/main/White_Matrix.py">White's Correction Matrix Repository</a>.</p>
+
+            <h2 id="python-code-analysis">Python Code and Analysis</h2>
+            <h3 id="code-setup">Import packages, set parameters, define functions and simulations</h3>
+            <p>In this section, we present the Python code implementations for setting up the experiment, including importing packages, defining parameters, creating functions for simulations, and running iterations across designs and sample sizes.</p>
             <div class="accordion">
                 <div class="accordion-item">
                     <button class="accordion-header">Import Packages (Click to expand code)</button>
@@ -177,9 +236,9 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 import scipy.stats as stats
+                        </code></pre>
                     </div>
                 </div>
-
                 <div class="accordion-item">
                     <button class="accordion-header">Set Parameters (Click to expand code)</button>
                     <div class="accordion-content">
@@ -198,7 +257,6 @@ designs = [1, 2]
                         </code></pre>
                     </div>
                 </div>
-
                 <div class="accordion-item">
                     <button class="accordion-header">Simulations (Click to expand code)</button>
                     <div class="accordion-content">
@@ -247,8 +305,7 @@ def simulate(n, design, use_true_errors=False):
     return errors
                         </code></pre>
                     </div>
-                </div>         
-
+                </div>
                 <div class="accordion-item">
                     <button class="accordion-header">Iterations (Click to expand code)</button>
                     <div class="accordion-content">
@@ -298,12 +355,15 @@ for design in designs:
                         </code></pre>
                     </div>
                 </div>
+            </div>
 
-                <p>First, the model replicas were estimated and the White matrix was calculated using the MCC residuals. The results of this case are reflected in Table 1, where it is verified that both individual and total errors decrease as the sample size increases. Therefore, we can affirm that the estimation of the variance and covariance matrix using the White correction is consistent.</p>
-
-                <p style="text-align: center;"><strong>Table 1:</strong> Relative errors of the white matrix using residual errors</p>
-                <img src="images/white_matrix/1.jpg" alt="Relative errors residual errors Screenshot" class="centered-image-linearmodel">
-
+            <h3 id="results">Results</h3>
+            <p>The population model considers that each of the β coefficients is equal to 1. 5000 replicates of this model have been estimated for each of the error designs for different sample sizes (20, 60, 100, 200, 400, and 600). It is important to highlight that the error depends on the variables <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>1</mn></msub></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>2</mn></msub></math> through the factor <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>v</mi><mi>i</mi></msub></math>.</p>
+            <p>With the results of the estimations, we proceed to calculate the White matrix, from which we then extract the relative errors for each of the β coefficients and the total error, which is the sum of the individual errors.</p>
+            <p>First, the model replicas were estimated and the White matrix was calculated using the MCC residuals. The results of this case are reflected in Table 1, where it is verified that both individual and total errors decrease as the sample size increases. Therefore, we can affirm that the estimation of the variance and covariance matrix using the White correction is consistent.</p>
+            <p style="text-align: center;"><strong>Table 1:</strong> Relative errors of the white matrix using residual errors</p>
+            <img src="images/white_matrix/1.jpg" alt="Relative errors residual errors Screenshot" class="centered-image-linearmodel">
+            <div class="accordion">
                 <div class="accordion-item">
                     <button class="accordion-header">Relative errors of the white matrix using residual errors (Click to expand code)</button>
                     <div class="accordion-content">
@@ -320,11 +380,11 @@ print(square_res2)
                         </code></pre>
                     </div>
                 </div>
-                
-                <p>On the other hand, we have estimated the White correction matrix using the model's actual errors, instead of using the residual error. For this, we raised the actual errors to the square and introduced them into a diagonal matrix, obtaining as a result the relative errors shown in Table 2.</p>
-
-                <p style="text-align: center;"><strong>Table 2:</strong> Relative errors of the white matrix using real errors</p>
-                <img src="images/white_matrix/2.jpg" alt="Relative errors residual errors Screenshot" class="centered-image-linearmodel">
+            </div>
+            <p>On the other hand, we have estimated the White correction matrix using the model's actual errors, instead of using the residual error. For this, we raised the actual errors to the square and introduced them into a diagonal matrix, obtaining as a result the relative errors shown in Table 2.</p>
+            <p style="text-align: center;"><strong>Table 2:</strong> Relative errors of the white matrix using real errors</p>
+            <img src="images/white_matrix/2.jpg" alt="Relative errors residual errors Screenshot" class="centered-image-linearmodel">
+            <div class="accordion">
                 <div class="accordion-item">
                     <button class="accordion-header">Relative errors of the white matrix using real errors (Click to expand code)</button>
                     <div class="accordion-content">
@@ -341,18 +401,14 @@ print(true_error2)
                         </code></pre>
                     </div>
                 </div>
-                <p>The results in Table 2 indicate that, if we knew the actual errors and could use them to calculate the White correction matrix, then the relative errors would be much smaller than those obtained using the residual errors, for any sample size of N.</p>                
- 
-            <h2>Conclusions</h2>
-            <p>Based on the estimates made with the proposed model, we have been able to verify that the correction proposed by White for estimating the variance and covariance matrix using MCC is effective in addressing heteroscedasticity in finite samples.</p>
+            </div>
+            <p>The results in Table 2 indicate that, if we knew the actual errors and could use them to calculate the White correction matrix, then the relative errors would be much smaller than those obtained using the residual errors, for any sample size of N.</p>
 
+            <h2 id="conclusions">Conclusions</h2>
+            <p>Based on the estimates made with the proposed model, we have been able to verify that the correction proposed by White for estimating the variance and covariance matrix using MCC is effective in addressing heteroscedasticity in finite samples.</p>
             <p>Using this correction matrix, a decrease in relative errors, both individual and total, has been observed as the sample size increases. This suggests that the estimation is consistent and will provide more precise estimates as the sample size grows.</p>
-            
             <p>This latter point is verified both in the case of using residual errors and in the case where we use the model's actual errors. In favor of using actual errors, it has been observed that the relative errors obtained when considering these errors are lower than those obtained using residual errors. However, the main limitation we encounter is that the model's actual errors are unknown.</p>
-            
             <p>Therefore, we can conclude that the White correction matrix provides consistent estimates and that, if we knew the actual errors and could use them instead of residuals, the estimates would be even more consistent.</p>
-            
-            
         </section>
     </main>
     <script>
@@ -370,6 +426,13 @@ print(true_error2)
                 // Mostrar u ocultar el contenido clicado
                 content.style.display = isOpen ? 'none' : 'block';
             });
+        });
+
+        // JavaScript para manejar el índice desplegable
+        document.querySelector('.toc-header').addEventListener('click', () => {
+            const content = document.querySelector('.toc-content');
+            const isOpen = content.style.display === 'block';
+            content.style.display = isOpen ? 'none' : 'block';
         });
     </script>
 </body>

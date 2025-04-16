@@ -4,6 +4,39 @@
     <meta charset="UTF-8">
     <title>GOOGL Stock Prediction with Recurrent Neural Networks-LSTM - Juan Benitez</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .toc {
+            margin-bottom: 20px;
+        }
+        .toc-header {
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .toc-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        .toc-content ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .toc-content ul ul {
+            padding-left: 40px;
+        }
+        .toc-content a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+        .toc-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -12,13 +45,58 @@
     </header>
     <main>
         <section class="project-details">
-            <h2>Overview</h2>
+            <div class="toc">
+                <div class="toc-header">Content (Click to expand)</div>
+                <div class="toc-content">
+                    <ul>
+                        <li><a href="#introduction">Introduction</a>
+                            <ul>
+                                <li><a href="#overview">Overview</a></li>
+                                <li><a href="#use-case">Use case</a></li>
+                                <li><a href="#github-code">GitHub code</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#python-code-analysis">Python Code and Analysis</a>
+                            <ul>
+                                <li><a href="#step1">Step 1: Packages</a></li>
+                                <li><a href="#step2">Step 2: Ticker definition and data loading</a></li>
+                                <li><a href="#step3">Step 3: Data Scaling</a></li>
+                                <li><a href="#step4">Step 4: Creation of the data structure for the RNN</a></li>
+                                <li><a href="#step5">Step 5: RNN Construction</a></li>
+                                <li><a href="#step6">Step 6: Compiling RNN</a></li>
+                                <li><a href="#step7">Step 7: RNN Training</a></li>
+                                <li><a href="#step8">Step 8: Preparation of the test set</a></li>
+                                <li><a href="#step9">Step 9: Data preparation for predictions</a></li>
+                                <li><a href="#step10">Step 10: Creation of test entries</a></li>
+                                <li><a href="#step11">Step 11: Making predictions</a></li>
+                                <li><a href="#step12">Step 12: Display of results</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#conclusions">Conclusions</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2 id="introduction">Introduction</h2>
+            <h3 id="overview">Overview</h3>
             <p>This project implements a Recurrent Neural Network (RNN) with LSTM layers to predict the adjusted closing price of Google (GOOGL) stock using historical data from Yahoo Finance. Based on the last 60 days of prices, the model aims to estimate the next day's value and compare predictions with actual data. It showcases a machine learning approach to analyzing financial time series. The following sections explain each step of the code, its purpose, and the parameters used.</p>
 
-            <h2>Python Code and Analysis</h2>
+            <h3 id="use-case">Use case</h3>
+            <p>This project focuses on time series forecasting, specifically predicting the adjusted closing price of Google (GOOGL) stock. This use case is relevant for financial applications such as algorithmic trading, portfolio management, and risk assessment, where accurate prediction of stock prices can inform investment decisions and market strategies. Additionally, it enables the generation of price alerts, detects trends, and assists in short-term investment decisions. It can also be integrated as part of a financial dashboard or used as input for algorithmic strategies.</p>
+            <p>Other real-world applications of Recurrent Neural Networks (RNNs) include:</p>
+            <li>Modeling meteorological time series to predict weather conditions at various locations and timeframes, such as temperature or precipitation.</li>
+            <li>Creating autonomous text in applications like chatbots, content generators, or even in composing music or poetry.</li>
+            <li>Analyzing posts and comments on social media over time to detect changes in user sentiment, useful for brand analysis or trend prediction.</li>
+            <li>Transcribing and translating speech to text, as in virtual assistants or automated customer service systems.</li>
+            <li>Predicting actions or events in video sequences, such as detecting movements or specific activities in security cameras or monitoring platforms.</li>
+            <p>RNNs are ideal for problems where the order and temporality of data are crucial, such as time series forecasting and sequence processing.</p>
 
-            <h3>Step 1: Packages</h3>
+            <h3 id="github-code">GitHub code</h3>
+            <p>The complete codefor this project is available on GitHub: <a href="https://github.com/juanbenitez1/RNN-StocksPrediction/blob/main/RNN.py">GOOGL Stock Prediction Code</a>.</p>
 
+            <h2 id="python-code-analysis">Python Code and Analysis</h2>
+
+            <h3 id="step1">Step 1: Packages</h3>
             <p>Packages to be imported:</p>
             <li><strong>numpy:</strong> Perform numerical operations with arrays.</li>
             <li><strong>pandas:</strong> Manage data in tabular structures (DataFrames).</li>
@@ -42,21 +120,22 @@ from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout
 from sklearn.metrics import mean_squared_error
+                    </code></pre>
                     </div>
                 </div>
+            </div>
 
-            <h3>Step 2: Ticker definition and data loading</h3>
-            
+            <h3 id="step2">Step 2: Ticker definition and data loading</h3>
             <p>At this stage, the ticker 'GOOGL', corresponding to Alphabet Inc. (Google) shares, is defined, and historical data is loaded using the yfinance library. A total of 1,278 days of information are downloaded, equivalent to approximately five years of trading data, with daily granularity (1-day interval).</p>
             <p>Subsequently, the structure of the DataFrame is simplified by removing the secondary level of columns created by yfinance's MultiIndex, and the index is reset to include dates as a separate column. This 1,278-day period is selected to provide a robust dataset, ideal for training predictive models, while the daily interval is optimal for short-term analysis and forecasting.</p>
             <p>The restructuring of columns and indices facilitates further data manipulation and processing, ensuring a solid foundation for the next phases of the analysis.</p>
-
             <p>In addition, the training set is prepared by selecting the first 1,258 days of data, representing approximately 98% of the total, to form the training dataset (dataset_train). From this set, only the column corresponding to the adjusted closing price (Adj Close, located at index 4) is extracted and converted into a NumPy array (training_set).</p>
             <p>The adjusted closing price is chosen as the main variable, as it is a standard metric in financial analysis that incorporates adjustments for dividends and stock splits, ensuring an accurate representation of value. The selection of the first 1,258 days and the specific column ensures a structured and efficient approach to training the model.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Ticker definition, data load and split (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Ticker definition, data load and split (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Ticker Definition (GOOGL)
 ticker = 'GOOGL'
 
@@ -69,38 +148,36 @@ data.reset_index(inplace=True)
 dataset_train = data.iloc[:1258]
 training_set = data.iloc[:1258, 4:5].values
                     </code></pre>
+                    </div>
                 </div>
             </div>    
 
-            <h3>Step 3: Data Scaling</h3>
-
+            <h3 id="step3">Step 3: Data Scaling</h3>
             <p>Then, the data is scaled by importing the MinMaxScaler from the sklearn.preprocessing library. An instance of the scaler is created and configured to transform the training set values, specifically the adjusted closing prices, into a normalized range between 0 and 1. Afterwards, the scaler is fitted to the training data and the transformation is applied, generating training_set_scaled.</p>
-
             <p>This normalization process is crucial for optimizing the performance of neural network models, such as LSTMs, since unscaled values can lead to instability during training. The 0 to 1 range is selected as a standard to ensure uniform scaling, facilitating processing and improving model convergence. The configuration of the parameter feature_range=(0, 1) ensures that the data remains within the defined limits, laying a solid foundation for the subsequent stages of model development.</p>
-
-            <div class="accordion-item">
-                <button class="accordion-header">Data Scaling (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Data Scaling (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Variable scaling (normalization)
 from sklearn.preprocessing import MinMaxScaler
 sc = MinMaxScaler(feature_range = (0, 1))  # Scaling the values between 0 and 1
 training_set_scaled = sc.fit_transform(training_set)
                     </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 4: Creation of the data structure for the RNN</h3>
-
+            <h3 id="step4">Step 4: Creation of the data structure for the RNN</h3>
             <p>At this stage, the dataset is structured to feed a recurrent neural network (RNN) by creating the lists X_train and y_train, intended to store the model’s inputs and outputs, respectively. Iterating from index 60 to 1257, X_train is built with sequences of 60 consecutive values from the scaled dataset (from i-60 to i-1), representing the adjusted closing prices of the previous 60 days, while y_train stores the value at index i, i.e., the price of the next day.</p>
-
             <p>Afterward, both lists are converted into NumPy arrays to facilitate processing. Then, X_train is reshaped using np.reshape to match the three-dimensional structure required by LSTM layers: (n_samples, timesteps, features), where n_samples corresponds to the number of examples (1,198, calculated as 1258 - 60), timesteps equals 60 (the defined time steps), and features is 1, since only the adjusted closing price is used.</p>
-
             <p>This sliding window approach, using 60 days (approximately three months of trading data) as the time horizon, allows the model to capture sequential patterns in stock prices, meeting the temporal data requirements of RNNs. The reshaping ensures that the inputs are compatible with the LSTM architecture, where each example contains a sequence of 60 values with a single feature per time step, optimizing the dataset for model training. The choice of 60 time steps balances the capture of relevant trends with computational efficiency, while index 0 guarantees the exclusive use of the scaled data column, laying a robust foundation for subsequent development phases.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Data Structure for the RNN (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Data Structure for the RNN (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Creating a data structure with 60 timesteps and 1 output
 X_train = []
 y_train = []
@@ -112,18 +189,19 @@ X_train, y_train = np.array(X_train), np.array(y_train)
 # Reshape the entrances to the shape required by the RNN.
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))  # Add feature dimension
                     </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 5: RNN Construction</h3>
-
+            <h3 id="step5">Step 5: RNN Construction</h3>
             <p>First, a Sequential model is initialized, which allows for stacking layers in a linear fashion. The Sequential model is ideal for building a recurrent neural network (RNN) with LSTM layers, as these are effective for modeling time series by capturing long-term dependencies in the data.</p>
             <p>Next, the model architecture is constructed by adding four LSTM layers, each with 50 units. The first three layers have return_sequences=True to output full sequences, allowing for the stacking of multiple LSTM layers, while the fourth omits this parameter since its output is connected to a dense layer. After each LSTM layer, a Dropout layer with a rate of 0.2 (20%) is added to randomly deactivate neurons during training, helping to prevent overfitting. The choice of 50 units balances model capacity with computational efficiency, and input_shape=(60, 1) in the first LSTM layer defines the input as 60 time steps with one feature. This design robustly captures complex temporal patterns.</p>
             <p>Finally, a Dense layer with a single unit is included to produce the next day’s price prediction. This layer is essential for generating a single numeric output, in line with the goal of predicting the adjusted closing price. The simplicity of using one unit ensures a direct and precise output.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">RNN Construction (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>    
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">RNN Construction (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>    
 # Initialize the RNN
 regressor = Sequential()
 
@@ -146,120 +224,119 @@ regressor.add(Dropout(0.2))  # Dropout
 # Add output layer
 regressor.add(Dense(units = 1))  # Dense layer with a single output unit
                     </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 6: Compiling RNN</h3>
-
+            <h3 id="step6">Step 6: Compiling RNN</h3>
             <p>At this step, the recurrent neural network (RNN) model is compiled using the compile method, configuring the optimizer as adam and the loss function as mean_squared_error. The adam optimizer is chosen for its efficiency and robustness, as it combines adaptive learning rate techniques with momentum, enabling fast and stable convergence.</p>
-
             <p>The mean_squared_error loss function is ideal for regression problems, as it accurately quantifies the discrepancies between predicted and actual values, guiding the model toward more accurate predictions. The parameters optimizer='adam' and loss='mean_squared_error' ensure an optimized setup for training the model to predict adjusted closing prices.</p>
-
-            <div class="accordion-item">
-                <button class="accordion-header">Compiling RNN (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Compiling RNN (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Compiling RNN
 regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')  # Using the Adam optimizer and mean squared error
                     </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 7: RNN Training</h3>
-
+            <h3 id="step7">Step 7: RNN Training</h3>
             <p>In this step, the recurrent neural network (RNN) is trained using the fit method, feeding it with the datasets X_train (inputs) and y_train (outputs). The training process adjusts the model's internal weights to minimize the previously defined loss function.</p>
             <p>A total of 100 epochs are used, allowing the model to iterate over the training set enough times to achieve convergence without significant overfitting. Additionally, a batch_size of 32 is set— a standard value that determines the number of samples processed before each weight update—offering a balance between training speed and stability of updates.</p>
-
             <p style="text-align: center;"><strong>Video 1:</strong> Model Training</p>
             <img src="images/rnn_model/1.gif" alt="Model training" class="centered-image-linearmodel">
-
-            <div class="accordion-item">
-                <button class="accordion-header">RNN Training (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">RNN Training (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Training RNN
 regressor.fit(X_train, y_train, epochs = 100, batch_size = 32)  # Training the network with 100 epochs and batch size of 32
                     </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 8: Preparation of the test set</h3>
-
+            <h3 id="step8">Step 8: Preparation of the test set</h3>
             <p>At this stage, the test set is defined by selecting the data from day 1258 to the end (dataset_test), which corresponds to the last 20 days. From this set, the adjusted closing prices (Adj Close, column index 4) are extracted into a NumPy array named real_stock_price. This test set is essential for evaluating the model’s performance by comparing its predictions to the actual values.</p>
-            <div class="accordion-item">
-                <button class="accordion-header">Preparing test set (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Preparing test set (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Obtaining the real price of GOOGL shares
 dataset_test = data.iloc[1258:]
 real_stock_price = dataset_test.iloc[::, 4:5].values # Real stock prices.
                     </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 9: Data preparation for predictions</h3>
-
+            <h3 id="step9">Step 9: Data preparation for predictions</h3>
             <p>Here, the input for the predictions is prepared by combining the prices from both the training and test sets into a single DataFrame (dataset_total) using pd.concat. The last 80 values are selected, which include the 60 previous days required for each prediction, plus the 20 days from the test set. These data are then reshaped into a 2D array and scaled using the same MinMaxScaler object employed during training, ensuring consistency in scaling.</p>
-            
-            <div class="accordion-item">
-                <button class="accordion-header">Data preparation for predictions (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Data preparation for predictions (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Obtaining the predicted price of GOOGL stock
 dataset_total = pd.concat((dataset_train['Adj Close'], dataset_test['Adj Close']), axis=0)
 inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values  # Selecting the last 60 values
 
 inputs = inputs.reshape(-1,1)  # Remodeling the input data
 inputs = sc.transform(inputs)  # Scaling the input data, because the values of train are scaled
+                    </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 10: Creation of test entries</h3>
-
+            <h3 id="step10">Step 10: Creation of test entries</h3>
             <p>At this stage, the test inputs (X_test) are generated to make the model predictions. Iterating from index 60 to 80, 60-day windows (from i-60 to i) are created for each of the 20 days in the test set and stored in a list. This list is then converted into a NumPy array and reshaped into a three-dimensional shape (20, 60, 1), where 20 represents the number of predictions, 60 the time steps, and 1 the single feature (scaled price).</p>
             <p>This process replicates the data structure used in training, ensuring that the LSTM model can process the inputs correctly. The selection of the range 60, 80 allows for exactly 20 predictions, and the i-60:i window guarantees that each prediction is based on the previous 60 days, maintaining consistency with the model's temporal logic.</p>
-
-            <div class="accordion-item">
-                <button class="accordion-header">Creation of test entries (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Creation of test entries (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 X_test = []
 for i in range(60, 80):  # We use 60 previous values to make the prediction
 # The maximum range is 80 because we forecast for 20 days.
     X_test.append(inputs[i-60:i, 0])  # Preparing the input data
 X_test = np.array(X_test)  # Convert to array
 X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))  # Remodeling for the RNN
+                    </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 11: Making predictions</h3>
-
+            <h3 id="step11">Step 11: Making predictions</h3>
             <p>In this step, the model's predictions are generated using the predict method on the test input set (X_test), obtaining predicted values in the normalized scale (0 to 1). Then, the inverse_transform method of the scaler (sc) is applied to transform these predictions back to their original scale in dollars, storing them in predicted_stock_price.</p> 
             <p>This process is crucial because the normalized predictions are not directly interpretable in financial terms, and unscaling them allows for a precise comparison with the actual adjusted closing prices, facilitating the evaluation of the model's performance.</p>
-
-            
-            <div class="accordion-item">
-                <button class="accordion-header">Predictions (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Predictions (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 predicted_stock_price = regressor.predict(X_test)  # Making predictions
 predicted_stock_price = sc.inverse_transform(predicted_stock_price)  # De-escalating predictions
                     </code></pre>
+                    </div>
                 </div>
             </div>
 
-            <h3>Step 12: Display of results</h3>
-
+            <h3 id="step12">Step 12: Display of results</h3>
             <p>At this final step, the results are visualized by creating a chart that compares the actual adjusted closing prices (real_stock_price) in red with the predicted prices (predicted_stock_price) in blue. The matplotlib library is used to generate the plot, which is assigned a title ("Google Stock Price Prediction"), axis labels ("Time" for the x-axis and "Google Stock Price" for the y-axis), and a legend that identifies both curves.</p>
             <p>This visualization is crucial, as it allows for an intuitive and clear assessment of the model's prediction accuracy by contrasting it with the actual values. It also facilitates the identification of patterns, trends, or discrepancies in the model's performance.</p>
-
             <p style="text-align: center;"><strong>Figure 1:</strong> Model Predictions</p>
             <img src="images/rnn_model/1.jpg" alt="Predictions Result" class="centered-image-linearmodel">
-
-            <div class="accordion-item">
-                <button class="accordion-header">Display of results (Click to expand code)</button>
-                <div class="accordion-content">
-                    <pre><code>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Display of results (Click to expand code)</button>
+                    <div class="accordion-content">
+                        <pre><code>
 # Display the results
 plt.plot(real_stock_price, color = 'red', label = 'Google Stock Real Price')  # Plotting actual prices
 plt.plot(predicted_stock_price, color = 'blue', label = 'Google Stock Predicted Price')  # Plotting predicted prices
@@ -269,23 +346,24 @@ plt.ylabel('Google Stock Prices')  # Eje Y
 plt.legend()  # Legend
 plt.show()
                     </code></pre>
+                    </div>
                 </div>
             </div>
-        
-        <h2>Conclusions</h2>
-        <p>The RNN model with LSTM demonstrates a reasonable performance in capturing the general trend of Google’s stock prices but shows significant limitations when it comes to predicting sharp movements and adapting to high market volatility. The discrepancies between actual and predicted prices at peaks and troughs, along with lag in predictions, suggest that the model is not fully optimized for this financial time series forecasting task.</p>
-        <p>While Dropout (set at 0.2) is effective in preventing overfitting, it appears to overly smooth the predictions, reducing the model’s ability to capture extreme fluctuations.</p>
-        <p>From a quantitative standpoint, it would be ideal to compute metrics such as Mean Squared Error (MSE) or Mean Absolute Error (MAE) to assess performance more precisely. Visually, the model exhibits notable error during periods of high volatility, which would likely be reflected in a high MSE.</p>
-        <p>In financial time series, capturing the overall trend (sustained upward or downward movements) is essential for practical applications like investment decision-making. This model achieves that partially, but its inability to respond to rapid changes limits its usefulness. LSTMs are well-suited for this type of task, thanks to their ability to learn long-term dependencies, but further tuning is required to enhance their sensitivity to short-term fluctuations.</p>
-        <p>Overfitting occurs when the model memorizes the training data and fails to generalize to new data. In this case, the use of Dropout (0.2) helps mitigate overfitting—positively reflected in the model's relatively smooth predictions—but it may also be causing underfitting, as the model fails to capture the full variability in the test data. This suggests that either the regularization is too aggressive or the model architecture lacks sufficient complexity.</p>
-        <p>Several alternatives could be explored to improve results:</p>
-        <li>Increase the number of LSTM units (e.g., from 50 to 100 or 150) to capture more complex patterns.</li>
-        <li>Reduce the Dropout rate to 0.1 or 0.15 to avoid excessive regularization.</li>
-        <li>Incorporate additional features such as trading volume or technical indicators (e.g., moving averages, RSI) to enrich the input data.</li>
-        <li>Experiment with different time windows, such as 30 or 90 days instead of 60, to test the model's sensitivity to varying historical depths.</li>
-        <li>Tune hyperparameters, such as reducing the number of epochs to 50, lowering batch size to 16, or adjusting the Adam optimizer’s learning rate to 0.0001 to improve convergence.</li>
-        <li>Explore hybrid models, combining RNNs with methods like ARIMA or CNNs to better handle volatility and extract local patterns.</li>
-        <p>These improvements remain as future work, aiming to develop a more robust and accurate model for stock price prediction.</p>
+
+            <h2 id="conclusions">Conclusions</h2>
+            <p>The RNN model with LSTM demonstrates a reasonable performance in capturing the general trend of Google’s stock prices but shows significant limitations when it comes to predicting sharp movements and adapting to high market volatility. The discrepancies between actual and predicted prices at peaks and troughs, along with lag in predictions, suggest that the model is not fully optimized for this financial time series forecasting task.</p>
+            <p>While Dropout (set at 0.2) is effective in preventing overfitting, it appears to overly smooth the predictions, reducing the model’s ability to capture extreme fluctuations.</p>
+            <p>From a quantitative standpoint, it would be ideal to compute metrics such as Mean Squared Error (MSE) or Mean Absolute Error (MAE) to assess performance more precisely. Visually, the model exhibits notable error during periods of high volatility, which would likely be reflected in a high MSE.</p>
+            <p>In financial time series, capturing the overall trend (sustained upward or downward movements) is essential for practical applications like investment decision-making. This model achieves that partially, but its inability to respond to rapid changes limits its usefulness. LSTMs are well-suited for this type of task, thanks to their ability to learn long-term dependencies, but further tuning is required to enhance their sensitivity to short-term fluctuations.</p>
+            <p>Overfitting occurs when the model memorizes the training data and fails to generalize to new data. In this case, the use of Dropout (0.2) helps mitigate overfitting—positively reflected in the model's relatively smooth predictions—but it may also be causing underfitting, as the model fails to capture the full variability in the test data. This suggests that either the regularization is too aggressive or the model architecture lacks sufficient complexity.</p>
+            <p>Several alternatives could be explored to improve results:</p>
+            <li>Increase the number of LSTM units (e.g., from 50 to 100 or 150) to capture more complex patterns.</li>
+            <li>Reduce the Dropout rate to 0.1 or 0.15 to avoid excessive regularization.</li>
+            <li>Incorporate additional features such as trading volume or technical indicators (e.g., moving averages, RSI) to enrich the input data.</li>
+            <li>Experiment with different time windows, such as 30 or 90 days instead of 60, to test the model's sensitivity to varying historical depths.</li>
+            <li>Tune hyperparameters, such as reducing the number of epochs to 50, lowering batch size to 16, or adjusting the Adam optimizer’s learning rate to 0.0001 to improve convergence.</li>
+            <li>Explore hybrid models, combining RNNs with methods like ARIMA or CNNs to better handle volatility and extract local patterns.</li>
+            <p>These improvements remain as future work, aiming to develop a more robust and accurate model for stock price prediction.</p>
         </section>
     </main>
     <script>
@@ -303,6 +381,13 @@ plt.show()
                 // Mostrar u ocultar el contenido clicado
                 content.style.display = isOpen ? 'none' : 'block';
             });
+        });
+
+        // JavaScript para manejar el índice desplegable
+        document.querySelector('.toc-header').addEventListener('click', () => {
+            const content = document.querySelector('.toc-content');
+            const isOpen = content.style.display === 'block';
+            content.style.display = isOpen ? 'none' : 'block';
         });
     </script>
 </body>
